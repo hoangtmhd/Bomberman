@@ -1,0 +1,11 @@
+.gradle
+.idea
+core/build/
+core/build.gradle
+desktop/
+gradle
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
