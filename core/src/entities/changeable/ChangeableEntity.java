@@ -10,17 +10,25 @@ public abstract class ChangeableEntity extends Entity {
         return remove;
     }
 
+    public void setRemove(boolean remove) {
+        this.remove = remove;
+    }
+
     public ChangeableEntity(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
         remove = false;
     }
 
-    public abstract void update();
+    public void update() {
+        if (remove) {
+            this.entityRemove();
+        }
+    }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        update();
+        this.update();
     }
 
     public abstract void entityRemove();

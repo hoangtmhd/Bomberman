@@ -1,38 +1,50 @@
 package entities.changeable.character;
 
+import app.screens.PlayScreen;
 import entities.Entity;
+import entities.EntityMapData;
+import entities.changeable.inactive.bomb.Bomb;
 import graphics.Sprite;
 
-public class Bomber extends Character {
-    private int maxBomb;
-    private int curBomb;
-    private int lifeLeft;
+import java.util.ArrayList;
 
-    public Bomber(int xUnit, int yUnit) {
-        super(xUnit, yUnit, Sprite.player_right);
-        maxBomb = 1;
-        curBomb = 0;
-        lifeLeft = 3;
+public class Bomber extends Character {
+    private int curBomb;
+    private Bomb bomb;
+
+    public Bomber(int xUnit, int yUnit, ArrayList<ArrayList<EntityMapData>> mapData) {
+        super(xUnit, yUnit, Sprite.player_right, mapData);
+        curBomb = 1;
     }
 
     public void planBomb() {
-        if (curBomb < maxBomb) {
-            ++curBomb;
+        if (curBomb > 0) {
+            --curBomb;
+            int xBomb = (int) hitBox.getX() / PlayScreen.SCALED_SIZE;
+            int yBomb = (int) hitBox.getY() / PlayScreen.SCALED_SIZE;
+            bomb = new Bomb(xBomb, yBomb, mapData, this);
+            this.getStage().addActor(bomb);
         }
     }
 
-    @Override
-    public boolean canMove() {
-        return true;
+    public void incBomb() {
+        ++curBomb;
     }
 
     @Override
-    public boolean collide(Entity entity) {
-        return false;
+    public void reset() {
+        super.reset();
+        remove = false;
+        curBomb = 1;
+    }
+
+    @Override
+    public void collide(Entity entity) {
+
     }
 
     @Override
     public void entityRemove() {
-
+        // animation.
     }
 }

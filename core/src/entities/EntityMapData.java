@@ -10,7 +10,8 @@ public enum EntityMapData {
     ONEAL,
     BOMB_ITEM,
     FLAME_ITEM,
-    SPEED_ITEM;
+    SPEED_ITEM,
+    BOMB;
 
     public static EntityMapData valueOf(char ch) {
         switch (ch) {

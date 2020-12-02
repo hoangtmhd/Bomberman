@@ -15,7 +15,6 @@ public class PlayerInput implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println("Button Down");
         switch (keycode) {
             case Input.Keys.UP:
                 bomber.setMoving(true);

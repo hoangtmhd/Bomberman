@@ -58,7 +58,7 @@ public class MenuScreen implements Screen {
     }
 
     private void startGame() {
-        game.setScreen(new PlayScreen(game, 1));
+        game.setScreen(new PlayScreen(game, 1, 3));
     }
 
     private void exitGame() {

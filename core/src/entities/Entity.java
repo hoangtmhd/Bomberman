@@ -33,6 +33,10 @@ public abstract class Entity extends Image {
         hitBox = new Rectangle(xHitBox, yHitBox, wHitBox, hHitBox);
     }
 
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
