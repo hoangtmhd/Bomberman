@@ -1,5 +1,6 @@
 package entities.changeable.character;
 
+import entities.Entity;
 import graphics.Sprite;
 
 public class Bomber extends Character {
@@ -8,13 +9,13 @@ public class Bomber extends Character {
     }
 
     @Override
-    public void update() {
-        if (moving) {
-            hitBox.setPosition(hitBox.getX() + direction.getX() * speed,
-                    hitBox.getY() + direction.getY() * speed);
-            this.setPosition(hitBox.getX() - sprite.getHitBoxX() * Sprite.SCALED_RADIUS,
-                    hitBox.getY() - sprite.getHitBoxY() * Sprite.SCALED_RADIUS);
-        }
+    public boolean canMove() {
+        return true;
+    }
+
+    @Override
+    public boolean collide(Entity entity) {
+        return false;
     }
 
     @Override
