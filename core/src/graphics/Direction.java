@@ -1,6 +1,7 @@
 package graphics;
 
 public enum Direction {
+    STAND(0, 0),
     RIGHT(1, 0),
     LEFT(-1, 0),
     UP(0, 1),

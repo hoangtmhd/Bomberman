@@ -4,8 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -19,6 +17,7 @@ import entities.still.Portal;
 import entities.still.StillEntity;
 import entities.still.Wall;
 import graphics.Sprite;
+import input.PlayerInput;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PlayScreen implements Screen {
-    private Stage stage;
-    private Game game;
+    private final Stage stage;
+    private final Game game;
 
     public static final int CAMERA_WIDTH = 16;
     public static final int CAMERA_HEIGHT = 13;
@@ -134,9 +133,13 @@ public class PlayScreen implements Screen {
         input.close();
     }
 
+    private void nextLevel() {
+        game.setScreen(new PlayScreen(game, curLevel + 1));
+    }
+
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(new PlayerInput(bomber));
     }
 
     @Override

@@ -21,7 +21,7 @@ public abstract class Character extends ChangeableEntity {
 
         xDefault = this.getX();
         yDefault = this.getY();
-        directionDefault = direction = Direction.RIGHT;
+        directionDefault = direction = Direction.STAND;
         moving = false;
         speed = 4;
     }
