@@ -2,7 +2,8 @@
 .idea
 core/build/
 core/build.gradle
-desktop/
+desktop/build/
+desktop/build.gradle
 gradle
 build.gradle
 gradle.properties
