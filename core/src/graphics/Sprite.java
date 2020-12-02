@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Sprite {
     public static final int SCALED_RADIUS = 2;
@@ -16,7 +15,6 @@ public class Sprite {
     private final int hitBoxY;
     private final int hitBoxWidth;
     private final int hitBoxHeight;
-    private boolean showHitBox;
 
     /*
 	|--------------------------------------------------------------------------
@@ -281,7 +279,6 @@ public class Sprite {
         hitBoxY = hY;
         hitBoxWidth = hW;
         hitBoxHeight = hH;
-        showHitBox = false;
     }
 
     public Sprite(int width, int height, Color color) {
@@ -293,31 +290,28 @@ public class Sprite {
         hitBoxY = 0;
         hitBoxWidth = width;
         hitBoxHeight = height;
-        showHitBox = false;
     }
 
-    public void setShowHitBox(boolean showHitBox) {
-        this.showHitBox = showHitBox;
+    public int getHitBoxX() {
+        return hitBoxX;
     }
 
-    public Image getImage() {
-        Pixmap pixmap = pixels;
-        if (showHitBox) {
-            pixmap = new Pixmap(pixels.getWidth(), pixels.getHeight(), Pixmap.Format.RGBA8888);
-            pixmap.drawPixmap(pixels, 0, 0);
+    public int getHitBoxY() {
+        return hitBoxY;
+    }
 
-            pixmap.setColor(new Color(0x0000ff8f));
-            pixmap.fillRectangle(hitBoxX, pixels.getHeight() - (hitBoxY + hitBoxHeight),
-                    hitBoxWidth, hitBoxHeight);
-        }
+    public int getHitBoxWidth() {
+        return hitBoxWidth;
+    }
 
-        TextureData textData = new PixmapTextureData(pixmap, Pixmap.Format.RGBA8888,
+    public int getHitBoxHeight() {
+        return hitBoxHeight;
+    }
+
+    public Texture getTexture() {
+        TextureData textData = new PixmapTextureData(pixels, Pixmap.Format.RGBA8888,
                 false, false, true);
-        Texture texture = new Texture(textData);
-        Image image = new Image(texture);
 
-        image.setSize(image.getWidth()*SCALED_RADIUS, image.getHeight()*SCALED_RADIUS);
-
-        return image;
+        return new Texture(textData);
     }
 }
