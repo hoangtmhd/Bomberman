@@ -1,16 +1,15 @@
-package app.run.desktop;
+package app.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import app.run.BombermanGame;
-import entities.Entity;
+import app.game.BombermanGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Bomberman";
-		config.width = Entity.ENTITY_SIZE * 40;
-		config.height = Entity.ENTITY_SIZE * 25;
+		config.width = 16 * 40;
+		config.height = 16 * 25;
 		config.resizable = false;
 
 		new LwjglApplication(new BombermanGame(), config);

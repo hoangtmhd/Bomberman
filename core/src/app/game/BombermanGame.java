@@ -1,7 +1,6 @@
-package app.run;
+package app.game;
 
-import app.screens.MenuScreen;
-import app.screens.PlayScreen;
+import app.screen.MenuScreen;
 import com.badlogic.gdx.Game;
 
 public class BombermanGame extends Game {
@@ -14,9 +13,9 @@ public class BombermanGame extends Game {
 	public void render () {
 		super.render();
 	}
-
+	
 	@Override
-	public void dispose() {
+	public void dispose () {
 		super.dispose();
 	}
 }

@@ -1,4 +1,4 @@
-package app.screens;
+package app.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -13,15 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen implements Screen {
-    private final Stage stage;
+public class MenuScreen  implements Screen {
     private final Game game;
+    private final Stage stage;
+    private final Skin skin;
 
     public MenuScreen(Game game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         Label label = new Label("Bomberman", skin);
         label.setPosition((float) Gdx.graphics.getWidth()/2 - (label.getWidth()/2),
@@ -58,10 +59,12 @@ public class MenuScreen implements Screen {
     }
 
     private void startGame() {
-        game.setScreen(new PlayScreen(game, 1, 3));
+        System.out.println("Start Game");
+        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE));
     }
 
     private void exitGame() {
+        System.out.println("Exit Game");
         System.exit(0);
     }
 
@@ -101,6 +104,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        skin.dispose();
         stage.dispose();
     }
 }

@@ -1,2 +1,0 @@
-# Bomberman
-OOP project :D

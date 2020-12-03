@@ -27,7 +27,7 @@ x - Portal
 
 Character:
 p - Bomber
-1 - Balloom
+1 - Balloon
 2 - Oneal
 
 Items:
