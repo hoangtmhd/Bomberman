@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.4" tiledversion="1.4.3" name="classic" tilewidth="16" tileheight="16" tilecount="256" columns="16">
  <image source="classic.png" trans="ff00ff" width="256" height="256"/>
+ <tile id="4">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="1" y="2" width="13" height="12"/>
+  </objectgroup>
+ </tile>
+ <tile id="5">
+  <properties>
+   <property name="wall" value=""/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="16" height="16"/>
+  </objectgroup>
+ </tile>
+ <tile id="7">
+  <properties>
+   <property name="brick" value=""/>
+  </properties>
+ </tile>
  <tile id="51">
   <animation>
    <frame tileid="48" duration="150"/>
