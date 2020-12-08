@@ -3,10 +3,8 @@ package app.management.map;
 import app.management.Management;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -48,36 +46,10 @@ public class MapManagement implements Management {
         Gdx.input.setInputProcessor(player);
     }
 
-    private Sprite prepareSprite(String imagePath) {
-        Texture texture = new Texture(Gdx.files.internal(imagePath));
-
-        if (!texture.getTextureData().isPrepared()) {
-            texture.getTextureData().prepare();
-        }
-
-        Pixmap pixmap = texture.getTextureData().consumePixmap();
-
-        Pixmap pixels = new Pixmap(CELL_SIZE, CELL_SIZE, Pixmap.Format.RGBA8888);
-
-        final int TRANSPARENT_COLOR = 0xff00ffff;
-        final int CLEAR = 0x00000000;
-
-        for (int x = 0; x < CELL_SIZE; ++x) {
-            for (int y = 0; y < CELL_SIZE; ++y) {
-                if (pixmap.getPixel(x, y) == TRANSPARENT_COLOR) {
-                    pixels.drawPixel(x, y, CLEAR);
-                } else {
-                    pixels.drawPixel(x, y, pixmap.getPixel(x, y));
-                }
-            }
-        }
-        return new Sprite(new Texture(pixels));
-    }
-
     private Sprite getPlayerInitSprite() {
         TextureMapObject tile = (TextureMapObject) (map.getLayers().get("Player").getObjects().get("zTile"));
 
-        Sprite sprite = prepareSprite("sprites/player_right.png");
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("sprites/player_right.png")));
         sprite.setPosition(tile.getX(), tile.getY());
         return sprite;
     }
