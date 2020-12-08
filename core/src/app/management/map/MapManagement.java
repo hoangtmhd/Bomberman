@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
+import entities.character.enemy.Enemy;
 import entities.inactive.Portal;
 import entities.inactive.items.Item;
 
@@ -33,6 +34,8 @@ public class MapManagement implements Management {
 
     private ArrayList<Item> items;
     private ArrayList<Portal> portals;
+
+    private ArrayList<Enemy> enemies;
 
     public MapManagement(int curLevel) {
         this.curLevel = curLevel;
@@ -71,6 +74,9 @@ public class MapManagement implements Management {
         blockedManagement.initInactive((TiledMapTileLayer) map.getLayers().get("Inactive"),
                 items, portals);
 
+        // Enemy.
+        enemies = new ArrayList<>();
+
         Gdx.input.setInputProcessor(player);
     }
 
@@ -95,6 +101,11 @@ public class MapManagement implements Management {
         for (Item item : items) {
             if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
                 player.collide(item);
+            }
+        }
+        for (Enemy enemy : enemies) {
+            if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
+                lose = true;
             }
         }
     }
