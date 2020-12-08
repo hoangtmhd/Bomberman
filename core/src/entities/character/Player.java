@@ -5,15 +5,17 @@ import app.management.map.Direction;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import entities.Entity;
 
 public class Player extends Character implements InputProcessor {
-    public Player(Sprite sprite, BlockedManagement blockedManagement) {
+    public Player(Sprite sprite, Rectangle rect, BlockedManagement blockedManagement) {
         super(sprite, blockedManagement);
-        hitBox.x = getX();
-        hitBox.y = getY();
-        hitBox.width = 12;
-        hitBox.height = 16;
+
+        hitBox.x = rect.x;
+        hitBox.y = rect.y;
+        hitBox.width = rect.width;
+        hitBox.height = rect.height;
 
         this.blockedManagement = blockedManagement;
     }

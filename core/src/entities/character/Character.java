@@ -45,8 +45,6 @@ public abstract class Character extends Entity {
     }
 
     public void move(float delta) {
-        hitBox.x = getX();
-        hitBox.y = getY();
         velocity.x = direction.getX() * speed;
         velocity.y = direction.getY() * speed;
 
