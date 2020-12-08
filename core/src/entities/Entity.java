@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Entity extends Sprite {
+    protected boolean removed;
+
     protected Rectangle hitBox;
 
     protected Animation<TextureRegion> animation;
@@ -19,18 +21,16 @@ public abstract class Entity extends Sprite {
     public Entity(Sprite sprite) {
         super(sprite);
         hitBox = new Rectangle();
+        removed = false;
     }
 
     @Override
     public void draw(Batch batch) {
-        update(Gdx.graphics.getDeltaTime());
-        time += Gdx.graphics.getDeltaTime();
-        batch.draw(animation.getKeyFrame(time, true), getX(), getY());
+        if (!removed) {
+            time += Gdx.graphics.getDeltaTime();
+            batch.draw(animation.getKeyFrame(time, true), getX(), getY());
+        }
     }
-
-    public abstract void update(float delta);
-
-    public abstract void collide(Entity entity);
 
     public static TextureRegion prepareRegion(String imagePath) {
         Texture texture = new Texture(Gdx.files.internal("sprites/" + imagePath));

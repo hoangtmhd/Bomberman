@@ -3,6 +3,8 @@ package entities.character;
 import app.management.map.BlockedManagement;
 import app.management.map.Direction;
 import app.management.map.MapManagement;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import entities.Entity;
@@ -40,9 +42,18 @@ public abstract class Character extends Entity {
     }
 
     @Override
+    public void draw(Batch batch) {
+        if (!removed) {
+            update(Gdx.graphics.getDeltaTime());
+        }
+        super.draw(batch);
+    }
+
     public void update(float delta) {
         move(delta);
     }
+
+    public abstract void collide(Entity entity);
 
     public void move(float delta) {
         velocity.x = direction.getX() * speed;
