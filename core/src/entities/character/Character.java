@@ -181,6 +181,7 @@ public abstract class Character extends Entity {
 
         return collide;
     }
+
     private boolean collideBottom() {
         boolean collide = false;
 
