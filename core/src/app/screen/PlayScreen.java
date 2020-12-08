@@ -1,16 +1,11 @@
 package app.screen;
 
+import app.management.camera.CameraManagement;
+import app.management.map.MapManagement;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import entities.character.Player;
 
 public class PlayScreen implements Screen {
     public static final int START_LEVEL = 1;
@@ -19,36 +14,36 @@ public class PlayScreen implements Screen {
     private final Game game;
 
     private final int curLevel;
-    private final int lifeLeft;
+    private int lifeLeft;
 
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera camera;
-
-    private Player player;
+    private final MapManagement mapManagement;
+    private final CameraManagement cameraManagement;
 
     public PlayScreen(Game game, int level, int curLifeLeft) {
         this.game = game;
 
         curLevel = level;
         lifeLeft = curLifeLeft;
+
+        mapManagement = new MapManagement(curLevel);
+        cameraManagement = new CameraManagement();
     }
 
     private void nextLevel() {
         game.setScreen(new PlayScreen(game, curLevel + 1, curLevel));
     }
 
+    private void gameOver() {
+        if (lifeLeft == 0) {
+            game.setScreen(new MenuScreen(game));
+        }
+        --lifeLeft;
+    }
+
     @Override
     public void show() {
-        String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
-        map = new TmxMapLoader().load(levelFilePath);
-
-        renderer = new OrthogonalTiledMapRenderer(map);
-
-        camera = new OrthographicCamera();
-        camera.zoom = 1/2f;
-
-        player = new Player(new Sprite(new Texture("sprites/player_right.png")));
+        mapManagement.show();
+        cameraManagement.show();
     }
 
     @Override
@@ -58,43 +53,40 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(0, 0, 0);
-        camera.update();
+        cameraManagement.render(delta);
 
-        renderer.setView(camera);
-        renderer.render();
-
-        renderer.getBatch().begin();
-        // draw to batch.
-        player.draw(renderer.getBatch());
-        renderer.getBatch().end();
+        mapManagement.setView(cameraManagement.getCamera());
+        mapManagement.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.update();
+        mapManagement.resize(width, height);
+        cameraManagement.resize(width, height);
     }
 
     @Override
     public void pause() {
-
+        mapManagement.pause();
+        cameraManagement.pause();
     }
 
     @Override
     public void resume() {
-
+        mapManagement.resume();
+        cameraManagement.resume();
     }
 
     @Override
     public void hide() {
-
+        mapManagement.hide();
+        cameraManagement.hide();
+        dispose();
     }
 
     @Override
     public void dispose() {
-        map.dispose();
-        renderer.dispose();
+        mapManagement.dispose();
+        cameraManagement.dispose();
     }
 }
