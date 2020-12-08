@@ -11,21 +11,41 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
+import entities.inactive.Portal;
+import entities.inactive.items.Item;
+
+import java.util.ArrayList;
 
 public class MapManagement implements Management {
     public static final int CELL_SIZE = 16;
 
+    private boolean win;
+    private boolean lose;
+
     private final int curLevel;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+
     private Player player;
 
-    private BlockedManagement blockedManagement;
+    private ArrayList<Item> items;
+    private ArrayList<Portal> portals;
 
     public MapManagement(int curLevel) {
         this.curLevel = curLevel;
+        win = false;
+        lose = false;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public boolean isLose() {
+        return lose;
     }
 
     public void setView(OrthographicCamera camera) {
@@ -37,11 +57,19 @@ public class MapManagement implements Management {
         String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
         map = new TmxMapLoader().load(levelFilePath);
 
-        blockedManagement = new BlockedManagement((TiledMapTileLayer) map.getLayers().get("Still"));
+        BlockedManagement blockedManagement = new BlockedManagement(
+                (TiledMapTileLayer) map.getLayers().get("Still"));
 
         renderer = new OrthogonalTiledMapRenderer(map);
 
+        // Player.
         player = new Player(getPlayerInitSprite(), getPlayerInitHitBox(), blockedManagement);
+
+        // Inactive.
+        items = new ArrayList<>();
+        portals = new ArrayList<>();
+        blockedManagement.initInactive((TiledMapTileLayer) map.getLayers().get("Inactive"),
+                items, portals);
 
         Gdx.input.setInputProcessor(player);
     }
@@ -58,8 +86,23 @@ public class MapManagement implements Management {
         return ((RectangleMapObject) map.getLayers().get("Player").getObjects().get("zHitBox")).getRectangle();
     }
 
+    private void checkCollision() {
+        for (Portal portal : portals) {
+            if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
+                win = true;
+            }
+        }
+        for (Item item : items) {
+            if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
+                player.collide(item);
+            }
+        }
+    }
+
     @Override
     public void render(float delta) {
+        checkCollision();
+
         renderer.render();
 
         renderer.getBatch().begin();

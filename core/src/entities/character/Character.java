@@ -53,8 +53,6 @@ public abstract class Character extends Entity {
         move(delta);
     }
 
-    public abstract void collide(Entity entity);
-
     public void move(float delta) {
         velocity.x = direction.getX() * speed;
         velocity.y = direction.getY() * speed;

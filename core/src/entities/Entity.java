@@ -18,9 +18,13 @@ public abstract class Entity extends Sprite {
     protected Animation<TextureRegion> animation;
     protected float time = 0f;
 
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
     public Entity(Sprite sprite) {
         super(sprite);
-        hitBox = new Rectangle();
+        hitBox = new Rectangle(getX(), getY(), getWidth(), getHeight());
         removed = false;
     }
 
@@ -31,6 +35,8 @@ public abstract class Entity extends Sprite {
             batch.draw(animation.getKeyFrame(time, true), getX(), getY());
         }
     }
+
+    public abstract void collide(Entity entity);
 
     public static TextureRegion prepareRegion(String imagePath) {
         Texture texture = new Texture(Gdx.files.internal("sprites/" + imagePath));

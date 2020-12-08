@@ -2,9 +2,9 @@
 <tileset version="1.4" tiledversion="1.4.3" name="classic" tilewidth="16" tileheight="16" tilecount="256" columns="16">
  <image source="classic.png" trans="ff00ff" width="256" height="256"/>
  <tile id="4">
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="2" width="13" height="12"/>
-  </objectgroup>
+  <properties>
+   <property name="portal" value=""/>
+  </properties>
  </tile>
  <tile id="5">
   <properties>
@@ -228,6 +228,21 @@
    <frame tileid="111" duration="150"/>
    <frame tileid="127" duration="150"/>
   </animation>
+ </tile>
+ <tile id="160">
+  <properties>
+   <property name="bombItem" value=""/>
+  </properties>
+ </tile>
+ <tile id="161">
+  <properties>
+   <property name="flameItem" value=""/>
+  </properties>
+ </tile>
+ <tile id="162">
+  <properties>
+   <property name="speedItem" value=""/>
+  </properties>
  </tile>
  <tile id="169">
   <animation>

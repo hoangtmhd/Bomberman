@@ -10,8 +10,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import entities.Entity;
+import entities.inactive.items.Item;
 
 public class Player extends Character implements InputProcessor {
+    private int numBomb;
+    private int flameRadius;
+
     private final Animation<TextureRegion> moveRightAnimation;
     private final Animation<TextureRegion> moveLeftAnimation;
     private final Animation<TextureRegion> moveUpAnimation;
@@ -31,6 +35,9 @@ public class Player extends Character implements InputProcessor {
         hitBox.height = rect.height;
 
         this.blockedManagement = blockedManagement;
+
+        numBomb = 1;
+        flameRadius = 1;
 
         // move right.
         TextureAtlas moveRightTA = new TextureAtlas();
@@ -85,7 +92,30 @@ public class Player extends Character implements InputProcessor {
     }
 
     public void planBomb() {
+        if (numBomb > 0) {
+            --numBomb;
+            // create new bomb.
+        }
+    }
 
+    public void incFlameRadius() {
+        ++flameRadius;
+    }
+
+    public void incBomb() {
+        ++numBomb;
+    }
+
+    public void incSpeed() {
+        speed = speed * 1.25f;
+    }
+
+    public void moveOnBrick(boolean moveOnBrick) {
+        this.moveOnBrick = moveOnBrick;
+    }
+
+    public void moveOnBomb(boolean moveOnBomb) {
+        this.moveOnBomb = moveOnBomb;
     }
 
     @Override
@@ -186,6 +216,8 @@ public class Player extends Character implements InputProcessor {
 
     @Override
     public void collide(Entity entity) {
-
+        if (entity instanceof Item) {
+            entity.collide(this);
+        }
     }
 }

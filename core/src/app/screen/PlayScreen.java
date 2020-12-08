@@ -48,6 +48,14 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (mapManagement.isWin()) {
+            nextLevel();
+        }
+
+        if (mapManagement.isLose()) {
+            gameOver();
+        }
+
         Gdx.graphics.setTitle("Gameplay");
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
