@@ -25,6 +25,7 @@ public class BombManagement {
     private final LinkedList<Flame> flames;
 
     private final Music exploreSound;
+    private final Music setBombSound;
 
     public BombManagement(BlockedManagement blockedManagement, LinkedList<Flame> flames) {
         this.flames = flames;
@@ -33,6 +34,9 @@ public class BombManagement {
 
         exploreSound = Gdx.audio.newMusic(Gdx.files.internal("sound/BOM_11_M.wav"));
         exploreSound.setLooping(false);
+
+        setBombSound = Gdx.audio.newMusic(Gdx.files.internal("sound/BOM_SET.wav"));
+        setBombSound.setLooping(false);
 
         width = blockedManagement.getWidth();
         height = blockedManagement.getHeight();
@@ -72,6 +76,7 @@ public class BombManagement {
         if (getData(xUnit, yUnit) != null) {
             bomb.remove();
         } else {
+            setBombSound.play();
             setData(xUnit, yUnit, bomb);
             blockedManagement.addBomb(xUnit, yUnit);
         }
