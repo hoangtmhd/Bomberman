@@ -111,7 +111,7 @@ public class Player extends Character implements InputProcessor {
         deadTA.addRegion("0003", prepareRegion("player_dead3.png"));
         deadAnimation = new Animation<TextureRegion>(3/4f, deadTA.getRegions());
 
-        animation = stillRightAnimation;
+        animation = stillDownAnimation;
     }
 
     public void planBomb() {

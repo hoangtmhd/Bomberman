@@ -26,6 +26,11 @@
    <property name="oneal" value=""/>
   </properties>
  </tile>
+ <tile id="13">
+  <properties>
+   <property name="dahl" value=""/>
+  </properties>
+ </tile>
  <tile id="58">
   <animation>
    <frame tileid="57" duration="1500"/>
