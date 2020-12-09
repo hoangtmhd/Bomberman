@@ -51,6 +51,9 @@ public class BlockedManagement {
     }
 
     public BlockedType getData(int xUnit, int yUnit) {
+        if (xUnit < 0 || yUnit < 0 || xUnit >= width || yUnit >= height) {
+            return BlockedType.WALL;
+        }
         return blockedData.get(yUnit).get(xUnit);
     }
 

@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
 import entities.character.enemy.Balloom;
+import entities.character.enemy.Dahl;
 import entities.character.enemy.Enemy;
 import entities.character.enemy.Oneal;
 import entities.inactive.Brick;
@@ -89,6 +90,8 @@ public class MapManagement implements Management {
                     enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
                 } else if (mapProperties.containsKey("oneal")) {
                     enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
+                } else if (mapProperties.containsKey("dahl")) {
+                    enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
                 }
             }
         }
