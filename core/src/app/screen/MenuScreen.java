@@ -20,8 +20,9 @@ public class MenuScreen  implements Screen {
     private final Skin skin;
 
     private GameMode gameMode;
+    private boolean muteMusic;
 
-    public MenuScreen(Game game) {
+    public MenuScreen(final Game game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
@@ -32,7 +33,7 @@ public class MenuScreen  implements Screen {
                 (float) Gdx.graphics.getHeight()*5/6);
         stage.addActor(label);
 
-        Button startButton = new TextButton("Start", skin);
+        final Button startButton = new TextButton("Start Game", skin);
         startButton.setSize((float) Gdx.graphics.getWidth()/5,
                 (float) Gdx.graphics.getHeight()/10);
         startButton.setPosition((float) Gdx.graphics.getWidth()/8*7 - startButton.getWidth()/2,
@@ -46,7 +47,7 @@ public class MenuScreen  implements Screen {
         });
         stage.addActor(startButton);
 
-        Button exitButton = new TextButton("Exit", skin);
+        final Button exitButton = new TextButton("Exit Game", skin);
         exitButton.setSize((float) Gdx.graphics.getWidth()/5,
                 (float) Gdx.graphics.getHeight()/10);
         exitButton.setPosition((float) Gdx.graphics.getWidth()/8*7 - exitButton.getWidth()/2,
@@ -60,13 +61,61 @@ public class MenuScreen  implements Screen {
         });
         stage.addActor(exitButton);
 
-        gameMode = GameMode.CANT_KILL_ENEMY;
+        gameMode = GameMode.NORMAL;
+        final TextButton modeButton = new TextButton("Mode: Normal", skin);
+        modeButton.setSize((float) Gdx.graphics.getWidth()/5,
+                (float) Gdx.graphics.getHeight()/10);
+        modeButton.setPosition((float) Gdx.graphics.getWidth()/8 - modeButton.getWidth()/2,
+                (float) Gdx.graphics.getHeight()/7 + modeButton.getHeight()/2);
+        modeButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                switch (gameMode) {
+                    case NORMAL:
+                        gameMode = GameMode.CANT_KILL_ENEMY;
+                        modeButton.setText("Mode: Friendly");
+                        break;
+                    case CANT_KILL_ENEMY:
+                        gameMode = GameMode.ICE_BOMB;
+                        modeButton.setText("Mode: Ice");
+                        break;
+                    case ICE_BOMB:
+                        gameMode = GameMode.NORMAL;
+                        modeButton.setText("Mode: Normal");
+                        break;
+                }
+                return true;
+            }
+        });
+        stage.addActor(modeButton);
+
+        muteMusic = false;
+        final TextButton muteButton = new TextButton("Mute: Off", skin);
+        muteButton.setSize((float) Gdx.graphics.getWidth()/5,
+                (float) Gdx.graphics.getHeight()/10);
+        muteButton.setPosition((float) Gdx.graphics.getWidth()/8 - modeButton.getWidth()/2,
+                (float) Gdx.graphics.getHeight()/7 - modeButton.getHeight()/2);
+        muteButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (muteMusic) {
+                    muteMusic = false;
+                    muteButton.setText("Mute: Off");
+                } else {
+                    muteMusic = true;
+                    muteButton.setText("Mute: On");
+                }
+                return true;
+            }
+        });
+        stage.addActor(muteButton);
     }
 
     private void startGame() {
         System.out.println("Start Game");
         dispose();
-        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE, gameMode));
+        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE,
+                gameMode, muteMusic));
     }
 
     private void exitGame() {

@@ -26,10 +26,12 @@ public class PlayScreen implements Screen {
 
     private final Music music;
     private float pauseMusicGap = 0f;
+    private boolean muteMusic;
 
-    public PlayScreen(Game game, int level, int curLifeLeft, GameMode gameMode) {
+    public PlayScreen(Game game, int level, int curLifeLeft, GameMode gameMode, boolean muteMusic) {
         this.game = game;
         this.gameMode = gameMode;
+        this.muteMusic = muteMusic;
 
         music = Gdx.audio.newMusic(Gdx.files.internal("sound/soundtrack.wav"));
 
@@ -39,8 +41,11 @@ public class PlayScreen implements Screen {
         mapManagement = new MapManagement(curLevel, gameMode);
         cameraManagement = new CameraManagement(mapManagement.getWidth(), mapManagement.getHeight(),
                 mapManagement.getPlayer());
+
         music.play();
         music.setLooping(true);
+
+        if (muteMusic && music.isPlaying()) music.pause();
     }
 
     private void nextLevel() {
@@ -49,7 +54,8 @@ public class PlayScreen implements Screen {
         if (curLevel == BombermanGame.MAX_LEVEL) {
             game.setScreen(new MenuScreen(game));
         } else {
-            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft, gameMode));
+            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft,
+                    gameMode, muteMusic));
         }
     }
 
@@ -59,7 +65,8 @@ public class PlayScreen implements Screen {
         if (lifeLeft == 1) {
             game.setScreen(new MenuScreen(game));
         } else {
-            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1, gameMode));
+            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1,
+                    gameMode, muteMusic));
         }
     }
 
@@ -91,8 +98,14 @@ public class PlayScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.M)) {
             if (pauseMusicGap <= 0) {
-                if (music.isPlaying()) music.pause();
-                else music.play();
+                if (music.isPlaying()) {
+                    music.pause();
+                    muteMusic = true;
+                }
+                else {
+                    music.play();
+                    muteMusic = false;
+                }
                 pauseMusicGap = 1/2f;
             }
         }
