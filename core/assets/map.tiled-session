@@ -17,15 +17,15 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 244.5,
-                "y": 85
+                "y": 84
             }
         },
         "levels/Level2.tmx": {
             "scale": 1,
-            "selectedLayer": 3,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 250.5,
-                "y": 36
+                "y": 34
             }
         },
         "textures/classic.tsx": {
@@ -47,8 +47,8 @@
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "levels/Level2.tmx",
         "textures/classic.tsx",
+        "levels/Level2.tmx",
         "levels/Level1.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
