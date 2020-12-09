@@ -23,6 +23,7 @@ public class PlayScreen implements Screen {
     private final CameraManagement cameraManagement;
 
     private final Music music;
+    private float pauseMusicGap = 0f;
 
     public PlayScreen(Game game, int level, int curLifeLeft) {
         this.game = game;
@@ -84,8 +85,14 @@ public class PlayScreen implements Screen {
         mapManagement.render(delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.M)) {
-            if (music.isPlaying()) music.pause();
-            else music.play();
+            if (pauseMusicGap <= 0) {
+                if (music.isPlaying()) music.pause();
+                else music.play();
+                pauseMusicGap = 1/2f;
+            }
+        }
+        if (pauseMusicGap > 0) {
+            pauseMusicGap -= delta;
         }
     }
 

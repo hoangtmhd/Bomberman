@@ -15,7 +15,7 @@ public class Oneal extends Enemy {
         points = 200;
         MAX_STEPS = 5f;
         steps = 0f;
-        //speed = 40f;
+        speed = 40f;
 
         this.player = player;
     }
@@ -27,6 +27,9 @@ public class Oneal extends Enemy {
             AILow thisAI = (AILow) ai;
             direction = thisAI.nearbyPlayer(player);
             changeDirection(direction);
+            speed = 55f;
+        } else {
+            speed = 40f;
         }
 
         super.update(delta);
