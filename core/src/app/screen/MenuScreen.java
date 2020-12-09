@@ -76,10 +76,6 @@ public class MenuScreen  implements Screen {
                         modeButton.setText("Mode: Friendly");
                         break;
                     case CANT_KILL_ENEMY:
-                        gameMode = GameMode.ICE_BOMB;
-                        modeButton.setText("Mode: Ice");
-                        break;
-                    case ICE_BOMB:
                         gameMode = GameMode.NORMAL;
                         modeButton.setText("Mode: Normal");
                         break;
