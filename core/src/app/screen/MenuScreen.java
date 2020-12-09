@@ -1,5 +1,6 @@
 package app.screen;
 
+import app.game.GameMode;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,6 +18,8 @@ public class MenuScreen  implements Screen {
     private final Game game;
     private final Stage stage;
     private final Skin skin;
+
+    private GameMode gameMode;
 
     public MenuScreen(Game game) {
         this.game = game;
@@ -56,16 +59,20 @@ public class MenuScreen  implements Screen {
             }
         });
         stage.addActor(exitButton);
+
+        gameMode = GameMode.CANT_KILL_ENEMY;
     }
 
     private void startGame() {
         System.out.println("Start Game");
-        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE));
+        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE, gameMode));
+        dispose();
     }
 
     private void exitGame() {
         System.out.println("Exit Game");
         System.exit(0);
+        dispose();
     }
 
     @Override
@@ -96,7 +103,6 @@ public class MenuScreen  implements Screen {
 
     @Override
     public void hide() {
-        dispose();
     }
 
     @Override

@@ -242,6 +242,7 @@ public class BombManagement {
                 Bomb bomb = getData(x, y);
                 if (bomb != null) {
                     bomb.remove();
+                    bomb.getTexture().dispose();
                     setData(x, y, null);
                 }
                 blockedManagement.destroy(x, y);
@@ -267,6 +268,7 @@ public class BombManagement {
         }
 
         while (flames.size() > 0 && flames.getFirst().isDestroy()) {
+            flames.getFirst().getTexture().dispose();
             flames.remove();
         }
     }

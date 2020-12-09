@@ -1,6 +1,7 @@
 package app.screen;
 
 import app.game.BombermanGame;
+import app.game.GameMode;
 import app.management.camera.CameraManagement;
 import app.management.map.MapManagement;
 import com.badlogic.gdx.Game;
@@ -15,6 +16,7 @@ public class PlayScreen implements Screen {
     public static final int START_LIFE = 3;
 
     private final Game game;
+    private final GameMode gameMode;
 
     private final int curLevel;
     private final int lifeLeft;
@@ -25,14 +27,16 @@ public class PlayScreen implements Screen {
     private final Music music;
     private float pauseMusicGap = 0f;
 
-    public PlayScreen(Game game, int level, int curLifeLeft) {
+    public PlayScreen(Game game, int level, int curLifeLeft, GameMode gameMode) {
         this.game = game;
+        this.gameMode = gameMode;
+
         music = Gdx.audio.newMusic(Gdx.files.internal("sound/soundtrack.wav"));
 
         curLevel = level;
         lifeLeft = curLifeLeft;
 
-        mapManagement = new MapManagement(curLevel);
+        mapManagement = new MapManagement(curLevel, gameMode);
         cameraManagement = new CameraManagement(mapManagement.getWidth(), mapManagement.getHeight(),
                 mapManagement.getPlayer());
         music.play();
@@ -42,20 +46,22 @@ public class PlayScreen implements Screen {
     private void nextLevel() {
         System.out.println("New Level");
         if (curLevel == BombermanGame.MAX_LEVEL) {
-            System.exit(0);
+            game.setScreen(new MenuScreen(game));
         }
         else {
-            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft));
+            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft, gameMode));
         }
+        dispose();
     }
 
     private void gameOver() {
         System.out.println("Game Over");
         if (lifeLeft == 1) {
-            System.exit(0);
+            game.setScreen(new MenuScreen(game));
         } else {
-            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1));
+            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1, gameMode));
         }
+        dispose();
     }
 
     @Override
@@ -120,7 +126,6 @@ public class PlayScreen implements Screen {
     public void hide() {
         mapManagement.hide();
         cameraManagement.hide();
-        dispose();
     }
 
     @Override

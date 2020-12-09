@@ -124,7 +124,7 @@ public class BlockedManagement {
 
     public boolean checkBlocked(int xUnit, int yUnit, Character character) {
         if (xUnit < 0 || yUnit < 0 || xUnit >= width || yUnit >= height) {
-            return false;
+            return true;
         }
         BlockedType data = getData(xUnit, yUnit);
         switch (data) {

@@ -1,11 +1,11 @@
 package app.management.map;
 
+import app.game.GameMode;
 import app.management.Management;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -26,9 +26,10 @@ import java.util.LinkedList;
 
 public class MapManagement implements Management {
     public static final int CELL_SIZE = 16;
+    private final GameMode gameMode;
 
-    private boolean win;
-    private boolean lose;
+    private boolean win = false;
+    private boolean lose = false;
 
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
@@ -38,25 +39,21 @@ public class MapManagement implements Management {
 
     private final Player player;
 
-    private final ArrayList<Item> items;
-    private final ArrayList<Portal> portals;
-    private final ArrayList<Brick> bricks;
+    private final ArrayList<Item> items = new ArrayList<>();
+    private final ArrayList<Portal> portals = new ArrayList<>();
+    private final ArrayList<Brick> bricks = new ArrayList<>();
 
-    private final ArrayList<Enemy> enemies;
+    private final ArrayList<Enemy> enemies = new ArrayList<>();
 
-    private final LinkedList<Flame> flames;
+    private final LinkedList<Flame> flames = new LinkedList<>();
 
-    public MapManagement(int curLevel) {
-        win = false;
-        lose = false;
+    public MapManagement(int curLevel, GameMode gameMode) {
+        this.gameMode = gameMode;
 
         String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
         map = new TmxMapLoader().load(levelFilePath);
 
-        blockedManagement = new BlockedManagement(
-                (TiledMapTileLayer) map.getLayers().get("Still"));
-
-        flames = new LinkedList<>();
+        blockedManagement = new BlockedManagement((TiledMapTileLayer) map.getLayers().get("Still"));
 
         bombManagement = new BombManagement(blockedManagement, flames);
 
@@ -70,34 +67,30 @@ public class MapManagement implements Management {
                 blockedManagement, bombManagement);
 
         // Inactive.
-        items = new ArrayList<>();
-        portals = new ArrayList<>();
-        bricks = new ArrayList<>();
         blockedManagement.initInactive((TiledMapTileLayer) map.getLayers().get("Inactive"),
                 items, portals, bricks);
 
         // Enemy.
-        enemies = new ArrayList<>();
-
         TiledMapTileLayer enemyLayer = (TiledMapTileLayer) map.getLayers().get("Enemy");
         for (int y = 0; y < blockedManagement.getHeight(); ++y) {
-            for (int x = 0; x < blockedManagement.getWidth(); ++x) if (enemyLayer.getCell(x, y) != null) {
-                String key = enemyLayer.getCell(x, y).getTile().getProperties().get("enemy", String.class);
-                switch (key) {
-                    case "balloom":
-                        enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
-                        break;
-                    case "oneal":
-                        enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
-                        break;
-                    case "dahl":
-                        enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
-                        break;
-                    case "doria":
-                        enemies.add(new Doria(getInitEnemySprite(x, y), blockedManagement, player));
-                        break;
+            for (int x = 0; x < blockedManagement.getWidth(); ++x)
+                if (enemyLayer.getCell(x, y) != null) {
+                    String key = enemyLayer.getCell(x, y).getTile().getProperties().get("enemy", String.class);
+                    switch (key) {
+                        case "balloom":
+                            enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
+                            break;
+                        case "oneal":
+                            enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
+                            break;
+                        case "dahl":
+                            enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
+                            break;
+                        case "doria":
+                            enemies.add(new Doria(getInitEnemySprite(x, y), blockedManagement, player));
+                            break;
+                    }
                 }
-            }
         }
     }
 
@@ -160,7 +153,7 @@ public class MapManagement implements Management {
             for (Portal portal : portals) if (!portal.isDestroy()) {
                 if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
                     System.out.println("Hit Portal");
-                    win = checkEnemy();
+                    win = checkEnemy() || (gameMode == GameMode.CANT_KILL_ENEMY);
                 }
             }
             for (Item item : items) if (!item.isDestroy()) {
@@ -199,6 +192,13 @@ public class MapManagement implements Management {
         if (player.isDestroy()) {
             lose = true;
             return;
+        }
+
+        if (gameMode == GameMode.CANT_KILL_ENEMY) {
+            for (Enemy enemy : enemies) if (enemy.isDestroy()) {
+                lose = true;
+                return;
+            }
         }
 
         renderer.render();
@@ -249,5 +249,11 @@ public class MapManagement implements Management {
     public void dispose() {
         map.dispose();
         renderer.dispose();
+        player.getTexture().dispose();
+        for (Flame flame : flames) flame.getTexture().dispose();
+        for (Enemy enemy : enemies) enemy.getTexture().dispose();
+        for (Brick brick : bricks) brick.getTexture().dispose();
+        for (Item item : items) item.getTexture().dispose();
+        for (Portal portal : portals) portal.getTexture().dispose();
     }
 }
