@@ -254,4 +254,14 @@
    <property name="item" value="speed"/>
   </properties>
  </tile>
+ <tile id="163">
+  <properties>
+   <property name="item" value="moveBrick"/>
+  </properties>
+ </tile>
+ <tile id="165">
+  <properties>
+   <property name="item" value="moveBomb"/>
+  </properties>
+ </tile>
 </tileset>

@@ -47,6 +47,7 @@
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "levels/Level2.tmx",
         "textures/classic.tsx",
         "levels/Level1.tmx"
     ],

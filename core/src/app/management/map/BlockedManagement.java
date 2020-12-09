@@ -87,12 +87,14 @@ public class BlockedManagement {
                         case "flame":
                             items.add(new FlameItem(getInitSprite(x, y), this));
                             break;
-                        case "bomb":
-                            items.add(new BombItem(getInitSprite(x, y), this));
-                            break;
+                        //case "bomb":
+                            //items.add(new BombItem(getInitSprite(x, y), this));
+                            //break;
                         case "speed":
                             items.add(new SpeedItem(getInitSprite(x, y), this));
                             break;
+                        default:
+                            items.add(new BombItem(getInitSprite(x, y), this));
                     }
                     Brick brick = new Brick(getInitSprite(x, y));
                     bricks.add(brick);
