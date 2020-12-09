@@ -7,7 +7,12 @@ import entities.character.Player;
 
 public class BombItem extends Item {
     public BombItem(Sprite sprite, BlockedManagement blockedManagement) {
-        super(sprite, blockedManagement);
+        super(sprite, blockedManagement, "bombs");
+    }
+
+    @Override
+    public void remove() {
+        removed = true;
     }
 
     @Override
@@ -15,6 +20,7 @@ public class BombItem extends Item {
         if (hiding() && entity instanceof Player) {
             Player player = (Player) entity;
             player.incBomb();
+            remove();
         }
     }
 }

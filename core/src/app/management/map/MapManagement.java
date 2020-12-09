@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
 import entities.character.enemy.Enemy;
+import entities.inactive.Brick;
 import entities.inactive.Portal;
 import entities.inactive.items.Item;
 
@@ -30,10 +31,14 @@ public class MapManagement implements Management {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
+    private BlockedManagement blockedManagement;
+    private BombManagement bombManagement;
+
     private Player player;
 
     private ArrayList<Item> items;
     private ArrayList<Portal> portals;
+    private ArrayList<Brick> bricks;
 
     private ArrayList<Enemy> enemies;
 
@@ -60,19 +65,25 @@ public class MapManagement implements Management {
         String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
         map = new TmxMapLoader().load(levelFilePath);
 
-        BlockedManagement blockedManagement = new BlockedManagement(
+        blockedManagement = new BlockedManagement(
                 (TiledMapTileLayer) map.getLayers().get("Still"));
+
+        bombManagement = new BombManagement(blockedManagement);
+
+        map.getLayers().get("Inactive").setVisible(false);
 
         renderer = new OrthogonalTiledMapRenderer(map);
 
         // Player.
-        player = new Player(getPlayerInitSprite(), getPlayerInitHitBox(), blockedManagement);
+        player = new Player(getPlayerInitSprite(), getPlayerInitHitBox(),
+                blockedManagement, bombManagement);
 
         // Inactive.
         items = new ArrayList<>();
         portals = new ArrayList<>();
+        bricks = new ArrayList<>();
         blockedManagement.initInactive((TiledMapTileLayer) map.getLayers().get("Inactive"),
-                items, portals);
+                items, portals, bricks);
 
         // Enemy.
         enemies = new ArrayList<>();
@@ -93,19 +104,23 @@ public class MapManagement implements Management {
     }
 
     private void checkCollision() {
-        for (Portal portal : portals) {
+        for (Portal portal : portals) if (portal.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
+                System.out.println("Hit Portal");
                 win = true;
             }
         }
-        for (Item item : items) {
+        for (Item item : items) if (item.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
+                System.out.println("Hit Item");
                 player.collide(item);
             }
         }
-        for (Enemy enemy : enemies) {
+
+        for (Enemy enemy : enemies) if (enemy.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
-                lose = true;
+                System.out.println("Hit Enemy");
+                //lose = true;
             }
         }
     }
@@ -118,7 +133,26 @@ public class MapManagement implements Management {
 
         renderer.getBatch().begin();
         // draw to batch.
+        for (Item item : items) {
+            item.draw(renderer.getBatch());
+        }
+
+        for (Portal portal : portals) {
+            portal.draw(renderer.getBatch());
+        }
+
+        for (Brick brick : bricks) {
+            brick.draw(renderer.getBatch());
+        }
+
+        for (Enemy enemy : enemies) {
+            enemy.draw(renderer.getBatch());
+        }
+
+        bombManagement.draw(delta, renderer.getBatch());
+
         player.draw(renderer.getBatch());
+
         renderer.getBatch().end();
     }
 

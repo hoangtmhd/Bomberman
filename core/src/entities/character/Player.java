@@ -1,15 +1,21 @@
 package entities.character;
 
 import app.management.map.BlockedManagement;
+import app.management.map.BombManagement;
 import app.management.map.Direction;
+import app.management.map.MapManagement;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import entities.Entity;
+import entities.inactive.bomb.Bomb;
+import entities.inactive.bomb.normal.NormalBomb;
 import entities.inactive.items.Item;
 
 public class Player extends Character implements InputProcessor {
@@ -26,7 +32,10 @@ public class Player extends Character implements InputProcessor {
     private final Animation<TextureRegion> stillUpAnimation;
     private final Animation<TextureRegion> stillDownAnimation;
 
-    public Player(Sprite sprite, Rectangle rect, BlockedManagement blockedManagement) {
+    private final BombManagement bombManagement;
+
+    public Player(Sprite sprite, Rectangle rect,
+                  BlockedManagement blockedManagement, BombManagement bombManagement) {
         super(sprite, blockedManagement);
 
         hitBox.x = rect.x;
@@ -35,6 +44,8 @@ public class Player extends Character implements InputProcessor {
         hitBox.height = rect.height;
 
         this.blockedManagement = blockedManagement;
+
+        this.bombManagement = bombManagement;
 
         numBomb = 1;
         flameRadius = 1;
@@ -95,7 +106,21 @@ public class Player extends Character implements InputProcessor {
         if (numBomb > 0) {
             --numBomb;
             // create new bomb.
+            Bomb bomb = new NormalBomb(getBombInitSprite(), this);
+            bombManagement.add(bomb);
         }
+    }
+
+    public Sprite getBombInitSprite() {
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("sprites/portal.png")));
+        int xUnit = (int) (hitBox.getX() + hitBox.getWidth()/2 - 1) / MapManagement.CELL_SIZE;
+        int yUnit = (int) (hitBox.getY() + hitBox.getHeight()/2 - 1) / MapManagement.CELL_SIZE;
+        sprite.setPosition(xUnit * MapManagement.CELL_SIZE, yUnit * MapManagement.CELL_SIZE);
+        return sprite;
+    }
+
+    public int getFlameRadius() {
+        return flameRadius;
     }
 
     public void incFlameRadius() {
@@ -212,6 +237,11 @@ public class Player extends Character implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    @Override
+    public void remove() {
+
     }
 
     @Override

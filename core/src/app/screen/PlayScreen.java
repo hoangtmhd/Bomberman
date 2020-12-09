@@ -1,5 +1,6 @@
 package app.screen;
 
+import app.game.BombermanGame;
 import app.management.camera.CameraManagement;
 import app.management.map.MapManagement;
 import com.badlogic.gdx.Game;
@@ -14,7 +15,7 @@ public class PlayScreen implements Screen {
     private final Game game;
 
     private final int curLevel;
-    private int lifeLeft;
+    private final int lifeLeft;
 
     private final MapManagement mapManagement;
     private final CameraManagement cameraManagement;
@@ -30,14 +31,19 @@ public class PlayScreen implements Screen {
     }
 
     private void nextLevel() {
-        game.setScreen(new PlayScreen(game, curLevel + 1, curLevel));
+        if (curLevel == BombermanGame.MAX_LEVEL) {
+            game.setScreen(new PlayScreen(game, curLevel, lifeLeft));
+        }
+        else {
+            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft));
+        }
     }
 
     private void gameOver() {
         if (lifeLeft == 0) {
             game.setScreen(new MenuScreen(game));
         }
-        --lifeLeft;
+        game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1));
     }
 
     @Override

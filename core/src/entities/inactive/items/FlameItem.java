@@ -7,7 +7,12 @@ import entities.character.Player;
 
 public class FlameItem extends Item {
     public FlameItem(Sprite sprite, BlockedManagement blockedManagement) {
-        super(sprite, blockedManagement);
+        super(sprite, blockedManagement, "flames");
+    }
+
+    @Override
+    public void remove() {
+        removed = true;
     }
 
     @Override
@@ -15,6 +20,7 @@ public class FlameItem extends Item {
         if (hiding() && entity instanceof Player) {
             Player player = (Player) entity;
             player.incFlameRadius();
+            remove();
         }
     }
 }

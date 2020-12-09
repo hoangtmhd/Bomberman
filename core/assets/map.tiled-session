@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "textures/classic.tsx",
+    "activeFile": "levels/Level1.tmx",
     "expandedProjectPaths": [
         "textures",
         "levels"
@@ -16,8 +16,8 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 136.25,
-                "y": 86
+                "x": 146.25,
+                "y": 97.5
             }
         },
         "textures/classic.tsx": {
@@ -39,8 +39,8 @@
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "levels/Level1.tmx",
-        "textures/classic.tsx"
+        "textures/classic.tsx",
+        "levels/Level1.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

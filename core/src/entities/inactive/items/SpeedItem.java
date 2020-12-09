@@ -7,7 +7,12 @@ import entities.character.Player;
 
 public class SpeedItem extends Item {
     public SpeedItem(Sprite sprite, BlockedManagement blockedManagement) {
-        super(sprite, blockedManagement);
+        super(sprite, blockedManagement, "speed");
+    }
+
+    @Override
+    public void remove() {
+        removed = true;
     }
 
     @Override
@@ -15,6 +20,7 @@ public class SpeedItem extends Item {
         if (hiding() && entity instanceof Player) {
             Player player = (Player) entity;
             player.incSpeed();
+            remove();
         }
     }
 }

@@ -16,14 +16,6 @@
    <property name="brick" value=""/>
   </properties>
  </tile>
- <tile id="51">
-  <animation>
-   <frame tileid="48" duration="150"/>
-   <frame tileid="49" duration="150"/>
-   <frame tileid="50" duration="150"/>
-   <frame tileid="49" duration="150"/>
-  </animation>
- </tile>
  <tile id="58">
   <animation>
    <frame tileid="57" duration="1500"/>
@@ -46,13 +38,6 @@
    <frame tileid="15" duration="300"/>
    <frame tileid="31" duration="300"/>
    <frame tileid="47" duration="300"/>
-  </animation>
- </tile>
- <tile id="71">
-  <animation>
-   <frame tileid="23" duration="300"/>
-   <frame tileid="39" duration="300"/>
-   <frame tileid="55" duration="300"/>
   </animation>
  </tile>
  <tile id="73">
@@ -231,17 +216,17 @@
  </tile>
  <tile id="160">
   <properties>
-   <property name="bombItem" value=""/>
+   <property name="item" value="bomb"/>
   </properties>
  </tile>
  <tile id="161">
   <properties>
-   <property name="flameItem" value=""/>
+   <property name="item" value="flame"/>
   </properties>
  </tile>
  <tile id="162">
   <properties>
-   <property name="speedItem" value=""/>
+   <property name="item" value="speed"/>
   </properties>
  </tile>
  <tile id="169">
@@ -313,34 +298,6 @@
    <frame tileid="36" duration="600"/>
    <frame tileid="37" duration="600"/>
    <frame tileid="38" duration="600"/>
-  </animation>
- </tile>
- <tile id="188">
-  <animation>
-   <frame tileid="0" duration="150"/>
-   <frame tileid="16" duration="150"/>
-   <frame tileid="32" duration="150"/>
-  </animation>
- </tile>
- <tile id="189">
-  <animation>
-   <frame tileid="1" duration="150"/>
-   <frame tileid="17" duration="150"/>
-   <frame tileid="33" duration="150"/>
-  </animation>
- </tile>
- <tile id="190">
-  <animation>
-   <frame tileid="2" duration="150"/>
-   <frame tileid="18" duration="150"/>
-   <frame tileid="34" duration="150"/>
-  </animation>
- </tile>
- <tile id="191">
-  <animation>
-   <frame tileid="3" duration="150"/>
-   <frame tileid="19" duration="150"/>
-   <frame tileid="35" duration="150"/>
   </animation>
  </tile>
 </tileset>

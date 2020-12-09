@@ -4,6 +4,8 @@ import app.screen.MenuScreen;
 import com.badlogic.gdx.Game;
 
 public class BombermanGame extends Game {
+	public static final int MAX_LEVEL = 1;
+
 	@Override
 	public void create () {
 		setScreen(new MenuScreen(this));
