@@ -173,7 +173,7 @@ public class MapManagement implements Management {
 
         if (flames.size() > 0) {
             for (Flame flame : flames) {
-                if (Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
+                if (!player.isDead() && Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
                     player.collide(flame);
                 }
                 for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
