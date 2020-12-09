@@ -266,6 +266,10 @@ public class Player extends Character implements InputProcessor {
         return super.isDestroy() && removeTime <= 0;
     }
 
+    public boolean isDead() {
+        return removed;
+    }
+
     @Override
     public void collide(Entity entity) {
         if (entity instanceof Item) {

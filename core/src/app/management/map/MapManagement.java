@@ -143,24 +143,33 @@ public class MapManagement implements Management {
         return ((RectangleMapObject) map.getLayers().get("Player").getObjects().get("zHitBox")).getRectangle();
     }
 
-    private void checkCollision() {
-        for (Portal portal : portals) if (!portal.isDestroy()) {
-            if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
-                System.out.println("Hit Portal");
-                win = true;
-            }
-        }
-        for (Item item : items) if (!item.isDestroy()) {
-            if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
-                System.out.println("Hit Item");
-                player.collide(item);
-            }
-        }
-
+    private boolean checkEnemy() {
         for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
-            if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
-                System.out.println("Hit Enemy");
-                player.collide(enemy);
+            return false;
+        }
+        return true;
+    }
+
+    private void checkCollision() {
+        if (!player.isDead()) {
+            for (Portal portal : portals) if (!portal.isDestroy()) {
+                if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
+                    System.out.println("Hit Portal");
+                    win = checkEnemy();
+                }
+            }
+            for (Item item : items) if (!item.isDestroy()) {
+                if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
+                    System.out.println("Hit Item");
+                    player.collide(item);
+                }
+            }
+
+            for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
+                if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
+                    System.out.println("Hit Enemy");
+                    player.collide(enemy);
+                }
             }
         }
 
