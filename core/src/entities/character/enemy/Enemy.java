@@ -8,9 +8,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import entities.Entity;
 import entities.character.Character;
+import entities.character.enemy.ai.AI;
 import entities.inactive.bomb.Flame;
 
 public abstract class Enemy extends Character {
+    protected AI ai;
+    protected int points;
+    protected float MAX_STEPS;
+    protected float steps;
+
     private final Animation<TextureRegion> moveRightAnimation;
     private final Animation<TextureRegion> moveLeftAnimation;
 
@@ -59,9 +65,20 @@ public abstract class Enemy extends Character {
     @Override
     public void update(float delta) {
         // change direction.
+        if (steps <= 0) {
+            direction = ai.calculateDirection();
+            changeDirection(direction);
+            steps = MAX_STEPS;
+        }
+
         // call changeDirection when want to move, then call stop if blocked.
-        changeDirection(Direction.RIGHT);
         super.update(delta);
+        if (canMove()) {
+            steps -= delta;
+        } else {
+            stop();
+            steps = 0;
+        }
     }
 
     protected void changeDirection(Direction direction) {
@@ -104,6 +121,7 @@ public abstract class Enemy extends Character {
     public void collide(Entity entity) {
         if (entity instanceof Flame) {
             remove();
+            // TODO: them diem cho player.
         }
     }
 }

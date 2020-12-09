@@ -32,7 +32,6 @@ public class MapManagement implements Management {
     private boolean win;
     private boolean lose;
 
-    private final int curLevel;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
 
@@ -50,7 +49,6 @@ public class MapManagement implements Management {
     private final LinkedList<Flame> flames;
 
     public MapManagement(int curLevel) {
-        this.curLevel = curLevel;
         win = false;
         lose = false;
 
@@ -90,7 +88,7 @@ public class MapManagement implements Management {
                 if (mapProperties.containsKey("balloom")) {
                     enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
                 } else if (mapProperties.containsKey("oneal")) {
-                    enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement));
+                    enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
                 }
             }
         }

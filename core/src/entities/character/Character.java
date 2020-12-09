@@ -11,16 +11,21 @@ import com.badlogic.gdx.math.Vector2;
 import entities.Entity;
 
 public abstract class Character extends Entity {
-    protected Vector2 velocity;
+    protected Vector2 velocity = new Vector2(0, 0);
 
-    protected Direction direction;
-    protected float speed;
+    protected Direction direction = Direction.STAND;
+    protected float speed = 30;
 
-    protected boolean moveOnBrick;
-    protected boolean moveOnBomb;
-    protected boolean onBomb;
+    protected boolean moveOnBrick = false;
+    protected boolean moveOnBomb = false;
+    protected boolean onBomb = false;
+    protected boolean moving = false;
 
     protected BlockedManagement blockedManagement;
+
+    public Direction getDirection() {
+        return direction;
+    }
 
     public boolean isMoveOnBrick() {
         return moveOnBrick;
@@ -34,17 +39,12 @@ public abstract class Character extends Entity {
         return onBomb;
     }
 
+    public boolean canMove() {
+        return moving;
+    }
+
     public Character(Sprite sprite, BlockedManagement blockedManagement) {
         super(sprite);
-        velocity = new Vector2(0, 0);
-
-        speed = 30;
-        direction = Direction.STAND;
-
-        moveOnBrick = false;
-        moveOnBomb = false;
-        onBomb = false;
-
         this.blockedManagement = blockedManagement;
     }
 
@@ -104,6 +104,7 @@ public abstract class Character extends Entity {
         }
 
         setPosition(getX() + (hitBox.getX() - oldX), getY() + (hitBox.getY() - oldY));
+        moving = !collisionX && !collisionY;
     }
 
     private boolean collideRight() {
