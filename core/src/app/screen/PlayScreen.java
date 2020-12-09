@@ -27,7 +27,8 @@ public class PlayScreen implements Screen {
         lifeLeft = curLifeLeft;
 
         mapManagement = new MapManagement(curLevel);
-        cameraManagement = new CameraManagement();
+        cameraManagement = new CameraManagement(mapManagement.getWidth(), mapManagement.getHeight(),
+                mapManagement.getPlayer());
     }
 
     private void nextLevel() {

@@ -33,45 +33,31 @@ public class MapManagement implements Management {
     private boolean lose;
 
     private final int curLevel;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
 
-    private BombManagement bombManagement;
+    private final BlockedManagement blockedManagement;
+    private final BombManagement bombManagement;
 
-    private Player player;
+    private final Player player;
 
-    private ArrayList<Item> items;
-    private ArrayList<Portal> portals;
-    private ArrayList<Brick> bricks;
+    private final ArrayList<Item> items;
+    private final ArrayList<Portal> portals;
+    private final ArrayList<Brick> bricks;
 
-    private ArrayList<Enemy> enemies;
+    private final ArrayList<Enemy> enemies;
 
-    private LinkedList<Flame> flames;
+    private final LinkedList<Flame> flames;
 
     public MapManagement(int curLevel) {
         this.curLevel = curLevel;
         win = false;
         lose = false;
-    }
 
-    public boolean isWin() {
-        return win;
-    }
-
-    public boolean isLose() {
-        return lose;
-    }
-
-    public void setView(OrthographicCamera camera) {
-        renderer.setView(camera);
-    }
-
-    @Override
-    public void show() {
         String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
         map = new TmxMapLoader().load(levelFilePath);
 
-        BlockedManagement blockedManagement = new BlockedManagement(
+        blockedManagement = new BlockedManagement(
                 (TiledMapTileLayer) map.getLayers().get("Still"));
 
         flames = new LinkedList<>();
@@ -108,7 +94,34 @@ public class MapManagement implements Management {
                 }
             }
         }
+    }
 
+    public float getWidth() {
+        return blockedManagement.getWidth();
+    }
+
+    public float getHeight() {
+        return blockedManagement.getHeight();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public boolean isLose() {
+        return lose;
+    }
+
+    public void setView(OrthographicCamera camera) {
+        renderer.setView(camera);
+    }
+
+    @Override
+    public void show() {
         Gdx.input.setInputProcessor(player);
     }
 
