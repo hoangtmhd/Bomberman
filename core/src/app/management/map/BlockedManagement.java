@@ -65,7 +65,7 @@ public class BlockedManagement {
                 MapProperties mapProperties = inactiveLayer.getCell(x, y).getTile().getProperties();
                 if (mapProperties.containsKey("portal")) {
                     // create Portal.
-                    portals.add(new Portal(getInitSprite(x, y)));
+                    portals.add(new Portal(getInitSprite(x, y), this));
                     // create Brick.
                     Brick brick = new Brick(getInitSprite(x, y));
                     bricks.add(brick);

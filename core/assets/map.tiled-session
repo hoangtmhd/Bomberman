@@ -14,10 +14,10 @@
         },
         "levels/Level1.tmx": {
             "scale": 1,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 244.5,
-                "y": 84
+                "y": 82
             }
         },
         "levels/Level2.tmx": {
@@ -25,7 +25,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 250.5,
-                "y": 34
+                "y": 33
             }
         },
         "textures/classic.tsx": {

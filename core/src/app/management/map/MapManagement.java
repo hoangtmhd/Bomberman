@@ -150,7 +150,7 @@ public class MapManagement implements Management {
 
     private void checkCollision() {
         if (player.isLive()) {
-            for (Portal portal : portals) if (!portal.isDestroy() && !win) {
+            for (Portal portal : portals) if (!portal.isDestroy() && portal.showing() && !win) {
                 if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
                     System.out.println("Hit Portal");
                     win = checkEnemy() || (gameMode == GameMode.CANT_KILL_ENEMY);
