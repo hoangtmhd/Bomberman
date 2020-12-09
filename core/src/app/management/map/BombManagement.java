@@ -1,6 +1,7 @@
 package app.management.map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,10 +24,15 @@ public class BombManagement {
     private final BlockedManagement blockedManagement;
     private final LinkedList<Flame> flames;
 
+    private final Music exploreSound;
+
     public BombManagement(BlockedManagement blockedManagement, LinkedList<Flame> flames) {
         this.flames = flames;
 
         this.blockedManagement = blockedManagement;
+
+        exploreSound = Gdx.audio.newMusic(Gdx.files.internal("sound/BOM_11_M.wav"));
+        exploreSound.setLooping(false);
 
         width = blockedManagement.getWidth();
         height = blockedManagement.getHeight();
@@ -233,6 +239,7 @@ public class BombManagement {
                 Bomb bomb = getData(x, y);
                 if (bomb != null && bomb.getExploreTime() <= 0) {
                     explore(x, y, bomb);
+                    exploreSound.play();
                 }
             }
         }
@@ -287,5 +294,7 @@ public class BombManagement {
             flames.getFirst().getTexture().dispose();
             flames.remove();
         }
+
+        exploreSound.dispose();
     }
 }
