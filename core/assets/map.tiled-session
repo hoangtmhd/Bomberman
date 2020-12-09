@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "levels/Level1.tmx",
+    "activeFile": "textures/classic.tsx",
     "expandedProjectPaths": [
         "textures",
         "levels"
@@ -28,6 +28,10 @@
                 "y": 33
             }
         },
+        "levels/explored.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "textures/classic.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
@@ -42,19 +46,22 @@
     "map.width": 31,
     "openFiles": [
         "levels/Level1.tmx",
+        "levels/Level2.tmx",
         "textures/classic.tsx"
     ],
     "project": "map.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "textures/classic.tsx",
+        "levels/Level1.tmx",
         "levels/Level2.tmx",
-        "levels/Level1.tmx"
+        "textures/classic.tsx",
+        "levels/explored.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 1,
     "tileset.tileSize": {
         "height": 16,
         "width": 16
     },
-    "tileset.useTransparentColor": true
+    "tileset.useTransparentColor": false
 }
