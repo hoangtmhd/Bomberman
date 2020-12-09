@@ -17,9 +17,11 @@ import entities.character.Player;
 import entities.character.enemy.Enemy;
 import entities.inactive.Brick;
 import entities.inactive.Portal;
+import entities.inactive.bomb.Flame;
 import entities.inactive.items.Item;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MapManagement implements Management {
     public static final int CELL_SIZE = 16;
@@ -41,6 +43,8 @@ public class MapManagement implements Management {
     private ArrayList<Brick> bricks;
 
     private ArrayList<Enemy> enemies;
+
+    private LinkedList<Flame> flames;
 
     public MapManagement(int curLevel) {
         this.curLevel = curLevel;
@@ -68,7 +72,9 @@ public class MapManagement implements Management {
         blockedManagement = new BlockedManagement(
                 (TiledMapTileLayer) map.getLayers().get("Still"));
 
-        bombManagement = new BombManagement(blockedManagement);
+        flames = new LinkedList<>();
+
+        bombManagement = new BombManagement(blockedManagement, flames);
 
         map.getLayers().get("Inactive").setVisible(false);
 
@@ -104,23 +110,36 @@ public class MapManagement implements Management {
     }
 
     private void checkCollision() {
-        for (Portal portal : portals) if (portal.isDestroy()) {
+        for (Portal portal : portals) if (!portal.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
                 System.out.println("Hit Portal");
                 win = true;
             }
         }
-        for (Item item : items) if (item.isDestroy()) {
+        for (Item item : items) if (!item.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), item.getHitBox())) {
                 System.out.println("Hit Item");
                 player.collide(item);
             }
         }
 
-        for (Enemy enemy : enemies) if (enemy.isDestroy()) {
+        for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
                 System.out.println("Hit Enemy");
-                //lose = true;
+                player.remove();
+            }
+        }
+
+        if (flames.size() > 0) {
+            for (Flame flame : flames) {
+                if (Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
+                    player.remove();
+                }
+                for (Enemy enemy : enemies) {
+                    if (Intersector.overlaps(flame.getHitBox(), enemy.getHitBox())) {
+                        enemy.remove();
+                    }
+                }
             }
         }
     }
@@ -128,6 +147,10 @@ public class MapManagement implements Management {
     @Override
     public void render(float delta) {
         checkCollision();
+
+        if (player.isDestroy()) {
+            lose = true;
+        }
 
         renderer.render();
 

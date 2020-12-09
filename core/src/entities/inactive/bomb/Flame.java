@@ -14,6 +14,11 @@ public abstract class Flame extends Inactive {
         removeTime = 1f;
     }
 
+    @Override
+    public boolean isDestroy() {
+        return (removeTime <= 0);
+    }
+
     protected Animation<TextureRegion> getAnimation(String name) {
         TextureAtlas textureAtlas = new TextureAtlas();
         textureAtlas.addRegion("0000", prepareRegion(name + ".png"));

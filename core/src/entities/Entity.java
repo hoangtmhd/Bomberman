@@ -24,7 +24,7 @@ public abstract class Entity extends Sprite {
     }
 
     public boolean isDestroy() {
-        return !removed;
+        return removed;
     }
 
     public Entity(Sprite sprite) {

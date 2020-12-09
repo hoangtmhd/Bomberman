@@ -14,21 +14,39 @@ public class NormalFlame extends Flame {
                 animation = getAnimation("bomb_exploded");
                 break;
             case UP:
+                hitBox.setX(hitBox.getX() + 1);
+                hitBox.setWidth(hitBox.getWidth() - 2);
+                hitBox.setHeight(hitBox.getHeight() - 1);
                 animation = getAnimation("explosion_vertical_top_last");
                 break;
             case DOWN:
+                hitBox.setX(hitBox.getX() + 1);
+                hitBox.setY(hitBox.getY() + 1);
+                hitBox.setWidth(hitBox.getWidth() - 2);
+                hitBox.setHeight(hitBox.getHeight() - 1);
                 animation = getAnimation("explosion_vertical_down_last");
                 break;
             case RIGHT:
+                hitBox.setY(hitBox.getY() + 1);
+                hitBox.setWidth(hitBox.getWidth() - 1);
+                hitBox.setHeight(hitBox.getHeight() - 2);
                 animation = getAnimation("explosion_horizontal_right_last");
                 break;
             case LEFT:
+                hitBox.setX(hitBox.getX() + 1);
+                hitBox.setY(hitBox.getY() + 1);
+                hitBox.setWidth(hitBox.getWidth() - 1);
+                hitBox.setHeight(hitBox.getHeight() - 2);
                 animation = getAnimation("explosion_horizontal_left_last");
                 break;
             case VERTICAL:
+                hitBox.setX(hitBox.getX() + 1);
+                hitBox.setWidth(hitBox.getWidth() - 2);
                 animation = getAnimation("explosion_vertical");
                 break;
             case HORIZONTAL:
+                hitBox.setY(hitBox.getY() + 1);
+                hitBox.setHeight(hitBox.getHeight() - 2);
                 animation = getAnimation("explosion_horizontal");
                 break;
         }

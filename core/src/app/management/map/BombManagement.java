@@ -12,7 +12,6 @@ import entities.inactive.bomb.normal.NormalFlame;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class BombManagement {
     private final ArrayList<ArrayList<Bomb>> bombData;
@@ -22,15 +21,16 @@ public class BombManagement {
     private final int height;
 
     private final BlockedManagement blockedManagement;
-    private final Queue<Flame> flames;
+    private final LinkedList<Flame> flames;
 
-    public BombManagement(BlockedManagement blockedManagement) {
+    public BombManagement(BlockedManagement blockedManagement, LinkedList<Flame> flames) {
+        this.flames = flames;
+
         this.blockedManagement = blockedManagement;
 
         width = blockedManagement.getWidth();
         height = blockedManagement.getHeight();
 
-        flames = new LinkedList<>();
 
         bombData = new ArrayList<>();
         explored = new ArrayList<>();
@@ -262,12 +262,12 @@ public class BombManagement {
             }
         }
 
-        for (Flame flame : flames) {
-            if (flame.isDestroy()) {
-                flames.remove();
-            } else {
-                flame.draw(batch);
-            }
+        for (Flame flame : flames) if (!flame.isDestroy()) {
+            flame.draw(batch);
+        }
+
+        while (flames.size() > 0 && flames.getFirst().isDestroy()) {
+            flames.remove();
         }
     }
 }

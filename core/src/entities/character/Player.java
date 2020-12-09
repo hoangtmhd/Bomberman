@@ -241,7 +241,7 @@ public class Player extends Character implements InputProcessor {
 
     @Override
     public void remove() {
-
+        removed = true;
     }
 
     @Override

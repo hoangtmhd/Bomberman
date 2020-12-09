@@ -31,8 +31,9 @@ public class PlayScreen implements Screen {
     }
 
     private void nextLevel() {
+        System.out.println("New Level");
         if (curLevel == BombermanGame.MAX_LEVEL) {
-            game.setScreen(new PlayScreen(game, curLevel, lifeLeft));
+            System.exit(0);
         }
         else {
             game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft));
@@ -40,10 +41,12 @@ public class PlayScreen implements Screen {
     }
 
     private void gameOver() {
-        if (lifeLeft == 0) {
-            game.setScreen(new MenuScreen(game));
+        System.out.println("Game Over");
+        if (lifeLeft == 1) {
+            System.exit(0);
+        } else {
+            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1));
         }
-        game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1));
     }
 
     @Override
