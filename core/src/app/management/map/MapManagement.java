@@ -149,7 +149,7 @@ public class MapManagement implements Management {
     }
 
     private void checkCollision() {
-        if (!player.isDead()) {
+        if (player.isLive()) {
             for (Portal portal : portals) if (!portal.isDestroy() && !win) {
                 if (Intersector.overlaps(player.getHitBox(), portal.getHitBox())) {
                     System.out.println("Hit Portal");
@@ -173,7 +173,7 @@ public class MapManagement implements Management {
 
         if (flames.size() > 0) {
             for (Flame flame : flames) {
-                if (!player.isDead() && Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
+                if (player.isLive() && Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
                     player.collide(flame);
                 }
                 for (Enemy enemy : enemies) if (!enemy.isDestroy()) {

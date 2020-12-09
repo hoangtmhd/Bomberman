@@ -7,7 +7,7 @@ import entities.character.Player;
 
 public class MoveBombItem extends Item {
     public MoveBombItem(Sprite sprite, BlockedManagement blockedManagement) {
-        super(sprite, blockedManagement, "wallpass");
+        super(sprite, blockedManagement, "bombpass");
     }
 
     @Override
