@@ -14,7 +14,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import entities.Entity;
+import entities.character.enemy.Enemy;
 import entities.inactive.bomb.Bomb;
+import entities.inactive.bomb.Flame;
 import entities.inactive.bomb.normal.NormalBomb;
 import entities.inactive.items.Item;
 
@@ -31,6 +33,8 @@ public class Player extends Character implements InputProcessor {
     private final Animation<TextureRegion> stillLeftAnimation;
     private final Animation<TextureRegion> stillUpAnimation;
     private final Animation<TextureRegion> stillDownAnimation;
+
+    private final Animation<TextureRegion> deadAnimation;
 
     private final BombManagement bombManagement;
 
@@ -99,6 +103,14 @@ public class Player extends Character implements InputProcessor {
         stillDownTA.addRegion("0000", prepareRegion("player_down.png"));
         stillDownAnimation = new Animation<TextureRegion>(0f, stillDownTA.getRegions());
 
+        // dead.
+        TextureAtlas deadTA = new TextureAtlas();
+        deadTA.addRegion("0000", prepareRegion("player_down.png"));
+        deadTA.addRegion("0001", prepareRegion("player_dead1.png"));
+        deadTA.addRegion("0002", prepareRegion("player_dead2.png"));
+        deadTA.addRegion("0003", prepareRegion("player_dead3.png"));
+        deadAnimation = new Animation<TextureRegion>(3/2f, deadTA.getRegions());
+
         animation = stillRightAnimation;
     }
 
@@ -145,6 +157,7 @@ public class Player extends Character implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (removed) return false;
         switch (keycode) {
             case Input.Keys.W:
                 // player move up.
@@ -176,6 +189,7 @@ public class Player extends Character implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if (removed) return false;
         switch (keycode) {
             case Input.Keys.A:
                 if (direction == Direction.LEFT) {
@@ -242,12 +256,27 @@ public class Player extends Character implements InputProcessor {
     @Override
     public void remove() {
         removed = true;
+        removeTime = 5/2f;
+        animation = deadAnimation;
+    }
+
+    @Override
+    public boolean isDestroy() {
+        return super.isDestroy() && removeTime <= 0;
     }
 
     @Override
     public void collide(Entity entity) {
         if (entity instanceof Item) {
             entity.collide(this);
+            return;
+        }
+        if (entity instanceof Flame) {
+            remove();
+            return;
+        }
+        if (entity instanceof Enemy) {
+            remove();
         }
     }
 }

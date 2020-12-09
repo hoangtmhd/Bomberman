@@ -29,7 +29,7 @@ public abstract class Entity extends Sprite {
 
     public Entity(Sprite sprite) {
         super(sprite);
-        hitBox = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        hitBox = new Rectangle(getX() + 1, getY() + 1, getWidth() - 2, getHeight() - 2);
     }
 
     @Override

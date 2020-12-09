@@ -16,6 +16,16 @@
    <property name="brick" value=""/>
   </properties>
  </tile>
+ <tile id="9">
+  <properties>
+   <property name="balloom" value=""/>
+  </properties>
+ </tile>
+ <tile id="11">
+  <properties>
+   <property name="oneal" value=""/>
+  </properties>
+ </tile>
  <tile id="58">
   <animation>
    <frame tileid="57" duration="1500"/>

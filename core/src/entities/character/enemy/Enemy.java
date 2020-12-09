@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import entities.Entity;
 import entities.character.Character;
+import entities.inactive.bomb.Flame;
+
+import java.util.Random;
 
 public abstract class Enemy extends Character {
     private final Animation<TextureRegion> moveRightAnimation;
@@ -41,12 +45,15 @@ public abstract class Enemy extends Character {
         TextureAtlas stillLeftTA = new TextureAtlas();
         stillLeftTA.addRegion("0000", prepareRegion(name + "_left1.png"));
         stillLeftAnimation = new Animation<TextureRegion>(0f, stillLeftTA.getRegions());
+
+        animation = stillLeftAnimation;
     }
 
     @Override
     public void update(float delta) {
         // change direction.
         // call changeDirection when want to move, then call stop if blocked.
+        changeDirection(Direction.RIGHT);
         super.update(delta);
     }
 
@@ -55,9 +62,11 @@ public abstract class Enemy extends Character {
             case RIGHT:
             case DOWN:
                 animation = moveRightAnimation;
+                break;
             case LEFT:
             case UP:
                 animation = moveLeftAnimation;
+                break;
         }
         this.direction = direction;
     }
@@ -74,5 +83,17 @@ public abstract class Enemy extends Character {
                 break;
         }
         direction = Direction.STAND;
+    }
+
+    @Override
+    public void remove() {
+        removed = true;
+    }
+
+    @Override
+    public void collide(Entity entity) {
+        if (entity instanceof Flame) {
+            remove();
+        }
     }
 }

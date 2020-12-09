@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,7 +15,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
+import entities.character.enemy.Balloom;
 import entities.character.enemy.Enemy;
+import entities.character.enemy.Oneal;
 import entities.inactive.Brick;
 import entities.inactive.Portal;
 import entities.inactive.bomb.Flame;
@@ -33,7 +36,6 @@ public class MapManagement implements Management {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-    private BlockedManagement blockedManagement;
     private BombManagement bombManagement;
 
     private Player player;
@@ -69,7 +71,7 @@ public class MapManagement implements Management {
         String levelFilePath = "levels/Level" + String.format("%d", curLevel) + ".tmx";
         map = new TmxMapLoader().load(levelFilePath);
 
-        blockedManagement = new BlockedManagement(
+        BlockedManagement blockedManagement = new BlockedManagement(
                 (TiledMapTileLayer) map.getLayers().get("Still"));
 
         flames = new LinkedList<>();
@@ -77,6 +79,7 @@ public class MapManagement implements Management {
         bombManagement = new BombManagement(blockedManagement, flames);
 
         map.getLayers().get("Inactive").setVisible(false);
+        map.getLayers().get("Enemy").setVisible(false);
 
         renderer = new OrthogonalTiledMapRenderer(map);
 
@@ -94,7 +97,25 @@ public class MapManagement implements Management {
         // Enemy.
         enemies = new ArrayList<>();
 
+        TiledMapTileLayer enemyLayer = (TiledMapTileLayer) map.getLayers().get("Enemy");
+        for (int y = 0; y < blockedManagement.getHeight(); ++y) {
+            for (int x = 0; x < blockedManagement.getWidth(); ++x) if (enemyLayer.getCell(x, y) != null) {
+                MapProperties mapProperties = enemyLayer.getCell(x, y).getTile().getProperties();
+                if (mapProperties.containsKey("balloom")) {
+                    enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
+                } else if (mapProperties.containsKey("oneal")) {
+                    enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement));
+                }
+            }
+        }
+
         Gdx.input.setInputProcessor(player);
+    }
+
+    private Sprite getInitEnemySprite(int xUnit, int yUnit) {
+        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("sprites/player_right.png")));
+        sprite.setPosition(xUnit * MapManagement.CELL_SIZE, yUnit * MapManagement.CELL_SIZE);
+        return sprite;
     }
 
     private Sprite getPlayerInitSprite() {
@@ -126,18 +147,18 @@ public class MapManagement implements Management {
         for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
             if (Intersector.overlaps(player.getHitBox(), enemy.getHitBox())) {
                 System.out.println("Hit Enemy");
-                player.remove();
+                player.collide(enemy);
             }
         }
 
         if (flames.size() > 0) {
             for (Flame flame : flames) {
                 if (Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
-                    player.remove();
+                    player.collide(flame);
                 }
                 for (Enemy enemy : enemies) {
                     if (Intersector.overlaps(flame.getHitBox(), enemy.getHitBox())) {
-                        enemy.remove();
+                        enemy.collide(flame);
                     }
                 }
             }
@@ -150,6 +171,7 @@ public class MapManagement implements Management {
 
         if (player.isDestroy()) {
             lose = true;
+            return;
         }
 
         renderer.render();
