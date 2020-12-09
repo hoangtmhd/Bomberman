@@ -130,7 +130,7 @@ public class BlockedManagement {
             case BRICK:
                 return !character.isMoveOnBrick();
             case BOMB:
-                return !character.isMoveOnBomb();
+                return !character.isMoveOnBomb() && !character.isOnBomb();
         }
         return false;
     }

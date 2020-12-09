@@ -1,6 +1,7 @@
 package entities.character;
 
 import app.management.map.BlockedManagement;
+import app.management.map.BlockedType;
 import app.management.map.Direction;
 import app.management.map.MapManagement;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +18,7 @@ public abstract class Character extends Entity {
 
     protected boolean moveOnBrick;
     protected boolean moveOnBomb;
+    protected boolean onBomb;
 
     protected BlockedManagement blockedManagement;
 
@@ -28,6 +30,10 @@ public abstract class Character extends Entity {
         return moveOnBomb;
     }
 
+    public boolean isOnBomb() {
+        return onBomb;
+    }
+
     public Character(Sprite sprite, BlockedManagement blockedManagement) {
         super(sprite);
         velocity = new Vector2(0, 0);
@@ -37,6 +43,7 @@ public abstract class Character extends Entity {
 
         moveOnBrick = false;
         moveOnBomb = false;
+        onBomb = false;
 
         this.blockedManagement = blockedManagement;
     }
@@ -51,6 +58,9 @@ public abstract class Character extends Entity {
 
     public void update(float delta) {
         move(delta);
+        int xUnit = (int) (hitBox.getX() + hitBox.getWidth()/2 - 1) / MapManagement.CELL_SIZE;
+        int yUnit = (int) (hitBox.getY() + hitBox.getHeight()/2 - 1) / MapManagement.CELL_SIZE;
+        onBomb = blockedManagement.getData(xUnit, yUnit) == BlockedType.BOMB;
     }
 
     public void move(float delta) {
