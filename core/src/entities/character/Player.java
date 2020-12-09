@@ -277,7 +277,7 @@ public class Player extends Character implements InputProcessor {
             return;
         }
         if (entity instanceof Flame) {
-            remove();
+            entity.collide(this);
             return;
         }
         if (entity instanceof Enemy) {

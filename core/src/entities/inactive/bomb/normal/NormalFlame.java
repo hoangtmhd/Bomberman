@@ -41,6 +41,6 @@ public class NormalFlame extends Flame {
 
     @Override
     public void collide(Entity entity) {
-
+        entity.remove();
     }
 }

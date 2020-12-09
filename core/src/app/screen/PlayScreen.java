@@ -5,7 +5,9 @@ import app.management.camera.CameraManagement;
 import app.management.map.MapManagement;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 
 public class PlayScreen implements Screen {
@@ -20,8 +22,11 @@ public class PlayScreen implements Screen {
     private final MapManagement mapManagement;
     private final CameraManagement cameraManagement;
 
+    private final Music music;
+
     public PlayScreen(Game game, int level, int curLifeLeft) {
         this.game = game;
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/soundtrack.wav"));
 
         curLevel = level;
         lifeLeft = curLifeLeft;
@@ -29,6 +34,8 @@ public class PlayScreen implements Screen {
         mapManagement = new MapManagement(curLevel);
         cameraManagement = new CameraManagement(mapManagement.getWidth(), mapManagement.getHeight(),
                 mapManagement.getPlayer());
+        music.play();
+        music.setLooping(true);
     }
 
     private void nextLevel() {
@@ -75,6 +82,11 @@ public class PlayScreen implements Screen {
 
         mapManagement.setView(cameraManagement.getCamera());
         mapManagement.render(delta);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.M)) {
+            if (music.isPlaying()) music.pause();
+            else music.play();
+        }
     }
 
     @Override
@@ -85,12 +97,14 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
+        music.pause();
         mapManagement.pause();
         cameraManagement.pause();
     }
 
     @Override
     public void resume() {
+        music.play();
         mapManagement.resume();
         cameraManagement.resume();
     }
@@ -106,5 +120,7 @@ public class PlayScreen implements Screen {
     public void dispose() {
         mapManagement.dispose();
         cameraManagement.dispose();
+        music.stop();
+        music.dispose();
     }
 }

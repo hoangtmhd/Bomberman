@@ -120,7 +120,7 @@ public abstract class Enemy extends Character {
     @Override
     public void collide(Entity entity) {
         if (entity instanceof Flame) {
-            remove();
+            entity.collide(this);
             // TODO: them diem cho player.
         }
     }
