@@ -11,11 +11,6 @@ public class BombItem extends Item {
     }
 
     @Override
-    public void remove() {
-        removed = true;
-    }
-
-    @Override
     public void collide(Entity entity) {
         if (showing() && entity instanceof Player) {
             Player player = (Player) entity;
