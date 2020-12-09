@@ -65,14 +65,14 @@ public class MenuScreen  implements Screen {
 
     private void startGame() {
         System.out.println("Start Game");
-        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE, gameMode));
         dispose();
+        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE, gameMode));
     }
 
     private void exitGame() {
         System.out.println("Exit Game");
-        System.exit(0);
         dispose();
+        System.exit(0);
     }
 
     @Override

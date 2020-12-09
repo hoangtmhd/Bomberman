@@ -250,7 +250,7 @@ public class MapManagement implements Management {
         map.dispose();
         renderer.dispose();
         player.getTexture().dispose();
-        for (Flame flame : flames) flame.getTexture().dispose();
+        bombManagement.dispose();
         for (Enemy enemy : enemies) enemy.getTexture().dispose();
         for (Brick brick : bricks) brick.getTexture().dispose();
         for (Item item : items) item.getTexture().dispose();

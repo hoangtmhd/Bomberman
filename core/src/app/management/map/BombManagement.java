@@ -272,4 +272,20 @@ public class BombManagement {
             flames.remove();
         }
     }
+
+    public void dispose() {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                Bomb bomb = bombData.get(y).get(x);
+                if (bomb != null) {
+                    bomb.getTexture().dispose();
+                }
+            }
+        }
+
+        while (flames.size() > 0) {
+            flames.getFirst().getTexture().dispose();
+            flames.remove();
+        }
+    }
 }
