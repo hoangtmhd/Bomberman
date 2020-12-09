@@ -156,7 +156,7 @@ public class MapManagement implements Management {
                 if (Intersector.overlaps(flame.getHitBox(), player.getHitBox())) {
                     player.collide(flame);
                 }
-                for (Enemy enemy : enemies) {
+                for (Enemy enemy : enemies) if (!enemy.isDestroy()) {
                     if (Intersector.overlaps(flame.getHitBox(), enemy.getHitBox())) {
                         enemy.collide(flame);
                     }
@@ -190,11 +190,12 @@ public class MapManagement implements Management {
             brick.draw(renderer.getBatch());
         }
 
+        bombManagement.draw(delta, renderer.getBatch());
+
         for (Enemy enemy : enemies) {
             enemy.draw(renderer.getBatch());
         }
 
-        bombManagement.draw(delta, renderer.getBatch());
 
         player.draw(renderer.getBatch());
 

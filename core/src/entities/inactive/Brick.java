@@ -26,7 +26,8 @@ public class Brick extends Entity {
     @Override
     public void remove() {
         animation = destroyAnimation;
-        removeTime = 2/3f;
+        removeTime = 3/2f;
+        time = 0;
         removed = true;
     }
 

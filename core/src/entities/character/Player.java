@@ -109,7 +109,7 @@ public class Player extends Character implements InputProcessor {
         deadTA.addRegion("0001", prepareRegion("player_dead1.png"));
         deadTA.addRegion("0002", prepareRegion("player_dead2.png"));
         deadTA.addRegion("0003", prepareRegion("player_dead3.png"));
-        deadAnimation = new Animation<TextureRegion>(3/2f, deadTA.getRegions());
+        deadAnimation = new Animation<TextureRegion>(3/4f, deadTA.getRegions());
 
         animation = stillRightAnimation;
     }
@@ -256,7 +256,8 @@ public class Player extends Character implements InputProcessor {
     @Override
     public void remove() {
         removed = true;
-        removeTime = 5/2f;
+        removeTime = 3f;
+        time = 0;
         animation = deadAnimation;
     }
 

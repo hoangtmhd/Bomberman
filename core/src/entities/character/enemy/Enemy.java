@@ -10,14 +10,14 @@ import entities.Entity;
 import entities.character.Character;
 import entities.inactive.bomb.Flame;
 
-import java.util.Random;
-
 public abstract class Enemy extends Character {
     private final Animation<TextureRegion> moveRightAnimation;
     private final Animation<TextureRegion> moveLeftAnimation;
 
     private final Animation<TextureRegion> stillRightAnimation;
     private final Animation<TextureRegion> stillLeftAnimation;
+
+    private final Animation<TextureRegion> deadAnimation;
 
     public Enemy(Sprite sprite, BlockedManagement blockedManagement, String name) {
         super(sprite, blockedManagement);
@@ -46,6 +46,13 @@ public abstract class Enemy extends Character {
         stillLeftTA.addRegion("0000", prepareRegion(name + "_left1.png"));
         stillLeftAnimation = new Animation<TextureRegion>(0f, stillLeftTA.getRegions());
 
+        // dead.
+        TextureAtlas deadTA = new TextureAtlas();
+        deadTA.addRegion("0000", prepareRegion(name + "_dead.png"));
+        deadTA.addRegion("0001", prepareRegion("mob_dead1.png"));
+        deadTA.addRegion("0002", prepareRegion("mob_dead2.png"));
+        deadTA.addRegion("0003", prepareRegion("mob_dead3.png"));
+        deadAnimation = new Animation<TextureRegion>(5/8f, deadTA.getRegions());
         animation = stillLeftAnimation;
     }
 
@@ -88,6 +95,9 @@ public abstract class Enemy extends Character {
     @Override
     public void remove() {
         removed = true;
+        removeTime = 5/2f;
+        time = 0;
+        animation = deadAnimation;
     }
 
     @Override
