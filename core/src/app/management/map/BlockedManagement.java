@@ -8,10 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import entities.character.Character;
 import entities.inactive.Brick;
 import entities.inactive.Portal;
-import entities.inactive.items.BombItem;
-import entities.inactive.items.FlameItem;
-import entities.inactive.items.Item;
-import entities.inactive.items.SpeedItem;
+import entities.inactive.items.*;
 
 import java.util.ArrayList;
 
@@ -87,14 +84,18 @@ public class BlockedManagement {
                         case "flame":
                             items.add(new FlameItem(getInitSprite(x, y), this));
                             break;
-                        //case "bomb":
+                        case "bomb":
                             //items.add(new BombItem(getInitSprite(x, y), this));
-                            //break;
+                            break;
                         case "speed":
                             items.add(new SpeedItem(getInitSprite(x, y), this));
                             break;
-                        default:
-                            items.add(new BombItem(getInitSprite(x, y), this));
+                        case "moveBrick":
+                            items.add(new MoveBrickItem(getInitSprite(x, y), this));
+                            break;
+                        case "moveBomb":
+                            items.add(new MoveBombItem(getInitSprite(x, y), this));
+                            break;
                     }
                     Brick brick = new Brick(getInitSprite(x, y));
                     bricks.add(brick);

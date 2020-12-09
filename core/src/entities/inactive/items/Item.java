@@ -21,7 +21,7 @@ public abstract class Item extends Inactive {
         animation = new Animation<TextureRegion>(0f, textureAtlas.getRegions());
     }
 
-    protected boolean hiding() {
+    protected boolean showing() {
         int xUnit = (int) getX() / MapManagement.CELL_SIZE;
         int yUnit = (int) getY() / MapManagement.CELL_SIZE;
 

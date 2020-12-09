@@ -17,7 +17,7 @@ public class SpeedItem extends Item {
 
     @Override
     public void collide(Entity entity) {
-        if (hiding() && entity instanceof Player) {
+        if (showing() && entity instanceof Player) {
             Player player = (Player) entity;
             player.incSpeed();
             remove();
