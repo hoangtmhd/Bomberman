@@ -10,7 +10,7 @@ public class Oneal extends Enemy {
     private final Player player;
 
     public Oneal(Sprite sprite, BlockedManagement blockedManagement, Player player) {
-        super(sprite, blockedManagement, "oneal");
+        super(sprite, blockedManagement, "oneal", player);
         ai = new AILow();
         points = 200;
         MAX_STEPS = 5f;

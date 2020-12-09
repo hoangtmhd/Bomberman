@@ -8,7 +8,7 @@ import entities.character.enemy.ai.AIMedium;
 public class Doria extends Enemy {
 
     public Doria(Sprite sprite, BlockedManagement blockedManagement, Player player) {
-        super(sprite, blockedManagement, "kondoria");
+        super(sprite, blockedManagement, "kondoria", player);
         ai = new AIMedium(player, this);
         points = 500;
         MAX_STEPS = 3f;

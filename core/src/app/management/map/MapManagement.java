@@ -78,13 +78,13 @@ public class MapManagement implements Management {
                     String key = enemyLayer.getCell(x, y).getTile().getProperties().get("enemy", String.class);
                     switch (key) {
                         case "balloom":
-                            enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
+                            enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement, player));
                             break;
                         case "oneal":
                             enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
                             break;
                         case "dahl":
-                            enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
+                            enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement, player));
                             break;
                         case "doria":
                             enemies.add(new Doria(getInitEnemySprite(x, y), blockedManagement, player));

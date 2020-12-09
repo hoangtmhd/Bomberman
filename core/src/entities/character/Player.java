@@ -38,6 +38,8 @@ public class Player extends Character implements InputProcessor {
 
     private final BombManagement bombManagement;
 
+    private int score = 0;
+
     public Player(Sprite sprite, Rectangle rect,
                   BlockedManagement blockedManagement, BombManagement bombManagement) {
         super(sprite, blockedManagement);
@@ -112,6 +114,14 @@ public class Player extends Character implements InputProcessor {
         deadAnimation = new Animation<TextureRegion>(3/4f, deadTA.getRegions());
 
         animation = stillDownAnimation;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void incScore(int bonus) {
+        score += bonus;
     }
 
     public void planBomb() {

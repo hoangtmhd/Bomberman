@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import entities.Entity;
 import entities.character.Character;
+import entities.character.Player;
 import entities.character.enemy.ai.AI;
 import entities.inactive.bomb.Flame;
 
@@ -16,6 +17,7 @@ public abstract class Enemy extends Character {
     protected int points;
     protected float MAX_STEPS;
     protected float steps;
+    protected Player player;
 
     private final Animation<TextureRegion> moveRightAnimation;
     private final Animation<TextureRegion> moveLeftAnimation;
@@ -25,8 +27,9 @@ public abstract class Enemy extends Character {
 
     private final Animation<TextureRegion> deadAnimation;
 
-    public Enemy(Sprite sprite, BlockedManagement blockedManagement, String name) {
+    public Enemy(Sprite sprite, BlockedManagement blockedManagement, String name, Player player) {
         super(sprite, blockedManagement);
+        this.player = player;
 
         // move right.
         TextureAtlas moveRightTA = new TextureAtlas();
@@ -121,7 +124,7 @@ public abstract class Enemy extends Character {
     public void collide(Entity entity) {
         if (entity instanceof Flame) {
             entity.collide(this);
-            // TODO: them diem cho player.
+            player.incScore(points);
         }
     }
 }

@@ -86,7 +86,7 @@ public class PlayScreen implements Screen {
             gameOver();
         }
 
-        Gdx.graphics.setTitle("Gameplay");
+        Gdx.graphics.setTitle("Score: " + mapManagement.getPlayer().getScore());
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

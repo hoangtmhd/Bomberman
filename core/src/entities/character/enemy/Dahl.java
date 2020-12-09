@@ -2,6 +2,7 @@ package entities.character.enemy;
 
 import app.management.map.BlockedManagement;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import entities.character.Player;
 import entities.character.enemy.ai.AILow;
 
 import java.util.Random;
@@ -10,8 +11,8 @@ public class Dahl extends Enemy {
     private float normalTime = 0f;
     private float jumpTime = 0f;
 
-    public Dahl(Sprite sprite, BlockedManagement blockedManagement) {
-        super(sprite, blockedManagement, "doll");
+    public Dahl(Sprite sprite, BlockedManagement blockedManagement, Player player) {
+        super(sprite, blockedManagement, "doll", player);
         ai = new AILow();
         points = 400;
         MAX_STEPS = 5f;
