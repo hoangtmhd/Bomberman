@@ -18,17 +18,17 @@
  </tile>
  <tile id="9">
   <properties>
-   <property name="balloom" value=""/>
+   <property name="enemy" value="balloom"/>
   </properties>
  </tile>
  <tile id="11">
   <properties>
-   <property name="oneal" value=""/>
+   <property name="enemy" value="oneal"/>
   </properties>
  </tile>
  <tile id="13">
   <properties>
-   <property name="dahl" value=""/>
+   <property name="enemy" value="dahl"/>
   </properties>
  </tile>
  <tile id="58">
@@ -96,6 +96,16 @@
    <frame tileid="30" duration="150"/>
    <frame tileid="46" duration="150"/>
   </animation>
+ </tile>
+ <tile id="88">
+  <properties>
+   <property name="enemy" value="minvo"/>
+  </properties>
+ </tile>
+ <tile id="90">
+  <properties>
+   <property name="enemy" value="doria"/>
+  </properties>
  </tile>
  <tile id="133">
   <animation>

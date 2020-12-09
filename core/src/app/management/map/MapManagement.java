@@ -15,10 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import entities.character.Player;
-import entities.character.enemy.Balloom;
-import entities.character.enemy.Dahl;
-import entities.character.enemy.Enemy;
-import entities.character.enemy.Oneal;
+import entities.character.enemy.*;
 import entities.inactive.Brick;
 import entities.inactive.Portal;
 import entities.inactive.bomb.Flame;
@@ -85,13 +82,20 @@ public class MapManagement implements Management {
         TiledMapTileLayer enemyLayer = (TiledMapTileLayer) map.getLayers().get("Enemy");
         for (int y = 0; y < blockedManagement.getHeight(); ++y) {
             for (int x = 0; x < blockedManagement.getWidth(); ++x) if (enemyLayer.getCell(x, y) != null) {
-                MapProperties mapProperties = enemyLayer.getCell(x, y).getTile().getProperties();
-                if (mapProperties.containsKey("balloom")) {
-                    enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
-                } else if (mapProperties.containsKey("oneal")) {
-                    enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
-                } else if (mapProperties.containsKey("dahl")) {
-                    enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
+                String key = enemyLayer.getCell(x, y).getTile().getProperties().get("enemy", String.class);
+                switch (key) {
+                    case "balloom":
+                        enemies.add(new Balloom(getInitEnemySprite(x, y), blockedManagement));
+                        break;
+                    case "oneal":
+                        enemies.add(new Oneal(getInitEnemySprite(x, y), blockedManagement, player));
+                        break;
+                    case "dahl":
+                        enemies.add(new Dahl(getInitEnemySprite(x, y), blockedManagement));
+                        break;
+                    case "doria":
+                        enemies.add(new Doria(getInitEnemySprite(x, y), blockedManagement, player));
+                        break;
                 }
             }
         }
