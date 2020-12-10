@@ -73,7 +73,7 @@ public class BombManagement {
     public void add(Bomb bomb) {
         int xUnit = (int) (bomb.getX() / MapManagement.CELL_SIZE);
         int yUnit = (int) (bomb.getY() / MapManagement.CELL_SIZE);
-        if (getData(xUnit, yUnit) != null) {
+        if (getData(xUnit, yUnit) != null || blockedManagement.getData(xUnit, yUnit) == BlockedType.BRICK) {
             bomb.remove();
         } else {
             setBombSound.play();

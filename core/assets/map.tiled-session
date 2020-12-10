@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "textures/classic.tsx",
+    "activeFile": "levels/Level2.tmx",
     "expandedProjectPaths": [
-        "textures",
-        "levels"
+        "levels",
+        "textures"
     ],
     "fileStates": {
         "levels/Classic.tsx": {
@@ -53,8 +53,8 @@
     "property.type": "string",
     "recentFiles": [
         "levels/Level1.tmx",
-        "levels/Level2.tmx",
         "textures/classic.tsx",
+        "levels/Level2.tmx",
         "levels/explored.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
