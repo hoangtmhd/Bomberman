@@ -4,7 +4,9 @@ import app.game.GameMode;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class MenuScreen  implements Screen {
     private final Game game;
     private final Stage stage;
+    private final BitmapFont font;
     private final Skin skin;
 
     private GameMode gameMode;
@@ -26,12 +29,19 @@ public class MenuScreen  implements Screen {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        font = new BitmapFont(Gdx.files.internal("skin/Amble-Regular-26.fnt"));
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.CYAN;
 
-        Label label = new Label("Bomberman", skin);
+        Label label = new Label("Bomberman", labelStyle);
+        label.setSize((float) Gdx.graphics.getWidth()/5,
+                (float) Gdx.graphics.getHeight()/10);
         label.setPosition((float) Gdx.graphics.getWidth()/2 - (label.getWidth()/2),
                 (float) Gdx.graphics.getHeight()*5/6);
         stage.addActor(label);
+
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         final Button startButton = new TextButton("Start Game", skin);
         startButton.setSize((float) Gdx.graphics.getWidth()/5,
@@ -152,6 +162,7 @@ public class MenuScreen  implements Screen {
 
     @Override
     public void dispose() {
+        font.dispose();
         skin.dispose();
         stage.dispose();
     }
