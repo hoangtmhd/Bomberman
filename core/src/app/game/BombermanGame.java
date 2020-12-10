@@ -5,6 +5,15 @@ import com.badlogic.gdx.Game;
 
 public class BombermanGame extends Game {
 	public static final int MAX_LEVEL = 2;
+	private int highScore = 0;
+
+	public int getHighScore() {
+		return highScore;
+	}
+
+	public void updateHighScore(int score) {
+		highScore = Math.max(highScore, score);
+	}
 
 	@Override
 	public void create () {

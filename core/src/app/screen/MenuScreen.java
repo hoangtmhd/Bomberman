@@ -1,7 +1,7 @@
 package app.screen;
 
+import app.game.BombermanGame;
 import app.game.GameMode;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen  implements Screen {
-    private final Game game;
+    private final BombermanGame game;
     private final Stage stage;
     private final BitmapFont font;
     private final Skin skin;
@@ -25,7 +25,7 @@ public class MenuScreen  implements Screen {
     private GameMode gameMode;
     private boolean muteMusic;
 
-    public MenuScreen(final Game game) {
+    public MenuScreen(final BombermanGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
@@ -40,6 +40,13 @@ public class MenuScreen  implements Screen {
         label.setPosition((float) Gdx.graphics.getWidth()/2 - (label.getWidth()/2),
                 (float) Gdx.graphics.getHeight()*5/6);
         stage.addActor(label);
+
+        Label showHighScore = new Label("High Score: " + game.getHighScore(), labelStyle);
+        showHighScore.setSize((float) Gdx.graphics.getWidth()/5,
+                (float) Gdx.graphics.getHeight()/10);
+        showHighScore.setPosition((float) Gdx.graphics.getWidth()/2 - (label.getWidth()/2),
+                (float) Gdx.graphics.getHeight()*3/6);
+        stage.addActor(showHighScore);
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
@@ -120,7 +127,7 @@ public class MenuScreen  implements Screen {
     private void startGame() {
         System.out.println("Start Game");
         dispose();
-        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE,
+        game.setScreen(new PlayScreen(game, PlayScreen.START_LEVEL, PlayScreen.START_LIFE, 0,
                 gameMode, muteMusic));
     }
 

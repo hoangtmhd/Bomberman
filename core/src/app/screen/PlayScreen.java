@@ -4,7 +4,6 @@ import app.game.BombermanGame;
 import app.game.GameMode;
 import app.management.camera.CameraManagement;
 import app.management.map.MapManagement;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -15,11 +14,12 @@ public class PlayScreen implements Screen {
     public static final int START_LEVEL = 1;
     public static final int START_LIFE = 3;
 
-    private final Game game;
+    private final BombermanGame game;
     private final GameMode gameMode;
 
     private final int curLevel;
     private final int lifeLeft;
+    private int curScore;
 
     private final MapManagement mapManagement;
     private final CameraManagement cameraManagement;
@@ -28,7 +28,8 @@ public class PlayScreen implements Screen {
     private float pauseMusicGap = 0f;
     private boolean muteMusic;
 
-    public PlayScreen(Game game, int level, int curLifeLeft, GameMode gameMode, boolean muteMusic) {
+    public PlayScreen(BombermanGame game, int level, int curLifeLeft, int score,
+                      GameMode gameMode, boolean muteMusic) {
         this.game = game;
         this.gameMode = gameMode;
         this.muteMusic = muteMusic;
@@ -37,6 +38,7 @@ public class PlayScreen implements Screen {
 
         curLevel = level;
         lifeLeft = curLifeLeft;
+        curScore = score;
 
         mapManagement = new MapManagement(curLevel, gameMode);
         cameraManagement = new CameraManagement(mapManagement.getWidth(), mapManagement.getHeight(),
@@ -50,22 +52,26 @@ public class PlayScreen implements Screen {
 
     private void nextLevel() {
         System.out.println("New Level");
+        curScore += mapManagement.getPlayer().getScore();
+        game.updateHighScore(curScore);
         dispose();
         if (curLevel == BombermanGame.MAX_LEVEL) {
             game.setScreen(new MenuScreen(game));
         } else {
-            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft,
+            game.setScreen(new PlayScreen(game, curLevel + 1, lifeLeft, curScore,
                     gameMode, muteMusic));
         }
     }
 
     private void gameOver() {
         System.out.println("Game Over");
+        curScore += mapManagement.getPlayer().getScore();
+        game.updateHighScore(curScore);
         dispose();
         if (lifeLeft == 1) {
             game.setScreen(new MenuScreen(game));
         } else {
-            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1,
+            game.setScreen(new PlayScreen(game, curLevel, lifeLeft - 1, curScore,
                     gameMode, muteMusic));
         }
     }
@@ -86,7 +92,7 @@ public class PlayScreen implements Screen {
             gameOver();
         }
 
-        Gdx.graphics.setTitle("Score: " + mapManagement.getPlayer().getScore());
+        Gdx.graphics.setTitle("Score: " + (curScore + mapManagement.getPlayer().getScore()));
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
